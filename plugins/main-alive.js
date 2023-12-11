@@ -1,41 +1,18 @@
+let handler = async (m, { conn }) => {
+    let uptime = process.uptime();
+    let name = "Silver Fox"; // Change the name here
 
+    let days = Math.floor(uptime / 86400);
+    let hours = Math.floor(uptime / 3600) % 24;
+    let minutes = Math.floor(uptime / 60) % 60;
 
-let handler = async(m, { conn, text, usedPrefix, command }) => {
+    let message = `Hello there! I am ${name}, the Silver Fox. 🦊\nI'm very much alive and ready to assist you. 🤖\n\n🤖 *I've been active for* ${days} days, ${hours} hours, ${minutes} minutes\n\nKeep smiling! 😁`;
 
-    // Sound
-    let name = m.pushName || conn.getName(m.sender)
-    var vn = "https://cdn.jsdelivr.net/gh/Guru322/GURU-BOT@main/Assets/mp3/Alive.mp3"
-    let url = "https://github.com/Guru322/GURU-BOT"
-    let murl = "https://youtu.be/DibiLc17dh0?si=xp9bQ-_frEyDB1-i"
-    let img = "https://cdn.wallpapersafari.com/71/19/7ZfcpT.png"
-    let con = { key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) }, message: { contactMessage: { displayName: `${name}`, vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${name}\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`}}}
-    let doc = {
-        audio: {
-          url: vn
-        },
-        mimetype: 'audio/mpeg',
-        ptt: true,
-        waveform:  [100, 0, 100, 0, 100, 0, 100],
-        fileName: "Guru",
-    
-        contextInfo: {
-          mentionedJid: [m.sender],
-          externalAdReply: {
-          title: "I AM ALIVE",
-          body: "GURU BOT",
-          thumbnailUrl: img,
-          sourceUrl: 'https://chat.whatsapp.com/F3sB3pR3tClBvVmlIkqDJp',
-          mediaType: 1,
-          renderLargerThumbnail: true
-          }}
-      };
-    
-      await conn.sendMessage(m.chat, doc, { quoted: con });
-    
-    }
-    
-    handler.help = ['alive']
-    handler.tags = ['main']
-    handler.command = /^(alive)$/i 
+    conn.reply(m.chat, message, m);
+}
 
-    export default handler;
+handler.help = ['alive']
+handler.tags = ['main']
+handler.command = /^(alive)$/i 
+
+export default handler;
