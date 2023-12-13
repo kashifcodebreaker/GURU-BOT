@@ -6,7 +6,7 @@ import fetch from 'node-fetch'
 import axios from 'axios'
 
 
-global.owner = ['923036631033', 'Pixel Agent', true], 
+global.owner = ['923036631033', 'Pixel Agent', true] 
 //global.pairingNumber = "" //put your bot number here
 global.mods = ['923036631033'] 
 global.prems = ['923036631033', '923068872881']
