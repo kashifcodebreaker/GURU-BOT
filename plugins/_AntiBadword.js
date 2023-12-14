@@ -12,7 +12,7 @@ export async function before(m, { isAdmin, isBotAdmin, conn }) {
             return false;
         }
         
-        if (isBotAdmin && m.fromMe) {
+        if (isBotAdmin) {
             // If the bot is an admin and the message is sent by the bot, do nothing.
             console.log('[Antitoxic] Bot is admin and message is from bot. No action required.');
             return true;
