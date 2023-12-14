@@ -15,10 +15,9 @@ import fetch from "node-fetch";
 
 const defaultMenu = {
   before: `
- 🤖 *${botname} at Your Service!* 🚀\n
-  *%ucpn*
-
-  ┏━༻*USER STATS*༺━┓
+  _%ucpn_\n 🤖 *${botname} at Your Service!* 🚀\n
+  
+  ┏━━༻ *USER STATS* ༺━━┓
   ⚔️ *Name:* %name
   💰 *Gold:* %credit
   🎭 *Role:* %role
@@ -27,7 +26,7 @@ const defaultMenu = {
   🌌 *Total XP:* %totalexp
   ╰──────────⳹
 
-  ┏━༻*ROBOT INFO*༺━┓
+  ┏━━༻ *ROBOT INFO* ༺━━┓
   ⚙️ *Robot Name:* ${botname}
   ⚓ *Command Prefix:* *%_p*
   🚀 *Operation Mode:* %mode
@@ -35,14 +34,14 @@ const defaultMenu = {
   💾 *Database:*  %totalreg
   ╰──────────⳹
 
-  ┏━༻*COMMAND CENTER*༺━┓
+  ┏━༻ *COMMAND CENTER* ༺━┓
   │ *%totalfeatures* Commands
   ╰──────────⳹
   %readmore
 `.trimStart(),
-  header: "✦─༻ *%category* ༺─⚝",
+  header: "┏━━━❀•🎀 *%category* 🎀•❀━━━┓",
   body: "◈ %cmd %isPremium %islimit",
-  footer: "╰──────────⳹",
+  footer: "╚══•❅•°•❈•°•❅•══╝",
   after: "\n%me",
 };
 
