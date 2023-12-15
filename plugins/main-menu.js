@@ -125,7 +125,7 @@ let handler = async (m, {
     let _text = [
       before,
       ...Object.keys(tags).map(tag => {
-        return header.replace(/%category/g, tags[tag].toUpperCase()) + "\n\n" + [
+        return header.replace(/%category/g, tags[tag].toUpperCase()) + "\n" + [
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : "%_p" + help)
@@ -135,7 +135,7 @@ let handler = async (m, {
             }).join("\n");
           }),
           footer
-        ].join("\n");
+        ].join("\n\n");
       }),
       after
     ].join("\n");
