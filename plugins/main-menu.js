@@ -15,7 +15,7 @@ import fetch from "node-fetch";
 
 const defaultMenu = {
   before: `
-  Hello @${m.sender.split("@")[0]}, %ucpn\n
+  Hello %tag, %ucpn\n
   🤖 *${botname} at Your Service!*\n
   
   ┏━━༻ *USER STATS* ༺━━┓
@@ -40,7 +40,7 @@ const defaultMenu = {
   ╰──────────⳹
   %readmore
 `.trimStart(),
-  header: "┏━❀•🎀 *%Category* 🎀•❀━┓",
+  header: "┏━❀•🎀 *%category* 🎀•❀━┓",
   body: "◈ %cmd %isPremium %islimit",
   footer: "╚══•❅•°•❈•°•❅•══╝",
   after: "\n%me",
@@ -125,7 +125,7 @@ let handler = async (m, {
     let _text = [
       before,
       ...Object.keys(tags).map(tag => {
-        return header.replace(/%Category/g, tags[tag].toUpperCase()) + "\n\n" + [
+        return header.replace(/%category/g, tags[tag].toUpperCase()) + "\n\n" + [
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : "%_p" + help)
