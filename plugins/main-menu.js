@@ -135,10 +135,10 @@ let handler = async (m, {
             }).join("\n");
           }),
           footer
-        ].join("\n\n");
+        ].join("\n");
       }),
       after
-    ].join("\n");
+    ].join("\n\n");
     let text = typeof conn.menu == "string" ? conn.menu : typeof conn.menu == "object" ? _text : "";
     let replace = {
       "%": "%",
