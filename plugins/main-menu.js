@@ -66,7 +66,7 @@ let handler = async (m, {
     /* Info Menu */
     let glb = global.db.data.users;
     let usrs = glb[m.sender];
-    let tag = `'${m.sender.split("@")[0]}'`;
+    let tag = "${m.sender.split('@')[0]}";
     let mode = global.opts["self"] ? "Private" : "Public";
     let _package = JSON.parse(await promises.readFile(join(__dirname, "../package.json")).catch(_ => ({}))) || {};
     let {
