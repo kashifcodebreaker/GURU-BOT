@@ -15,7 +15,7 @@ import fetch from "node-fetch";
 
 const defaultMenu = {
   before: `
-  _%ucpn_\n 🤖 *${botname} at Your Service!* 🚀\n
+  %ucpn\n 🤖 *${botname} at Your Service!* 🚀
   
   ┏━━༻ *USER STATS* ༺━━┓
   ⚔️ *Name:* %name
@@ -34,12 +34,12 @@ const defaultMenu = {
   💾 *Database:*  %totalreg
   ╰──────────⳹
 
-  ┏━༻ *COMMAND CENTER* ༺━┓
+  ┏༻ *COMMAND CENTER* ༺┓
   │ *%totalfeatures* Commands
   ╰──────────⳹
   %readmore
 `.trimStart(),
-  header: "┏━━━❀•🎀 *%category* 🎀•❀━━━┓",
+  header: "┏━❀•🎀 *%category* 🎀•❀━┓",
   body: "◈ %cmd %isPremium %islimit",
   footer: "╚══•❅•°•❈•°•❅•══╝",
   after: "\n%me",
@@ -66,7 +66,7 @@ let handler = async (m, {
     let glb = global.db.data.users;
     let usrs = glb[m.sender];
     let tag = `@${m.sender.split("@")[0]}`;
-    let mode = global.opts["self"] ? "Stealth Mode" : "Hyperdrive Mode";
+    let mode = global.opts["self"] ? "Private" : "Public";
     let _package = JSON.parse(await promises.readFile(join(__dirname, "../package.json")).catch(_ => ({}))) || {};
     let {
       age,
@@ -240,7 +240,7 @@ function ucapan() {
   if (time >= 4) {
     res = "😎 Good Morning!";
   }
-  if (time >= 10) {
+  if (time >= 11) {
     res = "🌞 Good Afternoon!";
   }
   if (time >= 15) {
