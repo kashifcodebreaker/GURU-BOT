@@ -15,7 +15,7 @@ import fetch from "node-fetch";
 
 const defaultMenu = {
   before: `
-  Hello %tag, %ucpn\n
+  Hello %tag,\n %ucpn\n
   🤖 *${botname} at Your Service!*\n
   
   ┏━━༻ *USER STATS* ༺━━┓
