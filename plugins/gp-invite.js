@@ -22,9 +22,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
       { mentions: [m.sender] }
     );
     m.reply(`🎉 An eloquent invitation has been dispatched to the esteemed recipient!`);
-  } catch {
-    m.reply(`❌ Oh dear! It seems a minor hiccup occurred. Please use the command correctly. For help, try *${usedPrefix}help ${command}*.`);
-  }
+  } 
 };
 
 handler.help = ['invite <917xxx>'];
