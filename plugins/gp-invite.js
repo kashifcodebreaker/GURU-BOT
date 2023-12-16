@@ -1,7 +1,7 @@
 let handler = async (m, { conn, args, text, usedPrefix, command }) => {
   try {
     if (!text) {
-      throw `🚀 To graciously extend an invitation, kindly provide the recipient's dignified phone number.\n\n📌 Example: *${usedPrefix + command}* 923012345678`;
+      throw `🚀 To extend an invitation, kindly provide the recipient's phone number.\n\n📌 Example: *${usedPrefix + command}* 923012345678`;
     }
 
     if (text.includes('+')) {
@@ -22,8 +22,8 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
       { mentions: [m.sender] }
     );
     m.reply(`🎉 An eloquent invitation has been dispatched to the esteemed recipient!`);
-  } catch (error) {
-    console.error(error);
+  } catch {
+    m.reply(`❌ Oh dear! It seems a minor hiccup occurred. Please use the command correctly. For help, try *${usedPrefix}help ${command}*.`);
   }
 };
 
