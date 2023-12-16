@@ -1,5 +1,5 @@
 let handler = async (m, { conn, args, text, usedPrefix, command }) => {
-  try {
+  
     if (!text) {
       throw `🚀 To extend an invitation, kindly provide the recipient's phone number.\n\n📌 Example: *${usedPrefix + command}* 923012345678`;
     }
@@ -21,8 +21,8 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
       m,
       { mentions: [m.sender] }
     );
-    m.reply(`🎉 An eloquent invitation has been dispatched to the esteemed recipient!`);
-  } 
+    m.reply(` *📬 The invitation has been transmitted to the intended recipient successfully!*`);
+   
 };
 
 handler.help = ['invite <917xxx>'];
