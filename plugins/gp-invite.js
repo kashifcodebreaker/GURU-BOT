@@ -24,7 +24,6 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
     m.reply(`🎉 An eloquent invitation has been dispatched to the esteemed recipient!`);
   } catch (error) {
     console.error(error);
-    m.reply(`❌ Oh dear! It seems a hiccup occurred. Please check the format and try again with refined precision.`);
   }
 };
 
