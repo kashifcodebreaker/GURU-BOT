@@ -789,18 +789,17 @@ export async function presenceUpdate(presenceUpdate) {
     if (user?.afk && status === "composing" && user.afk > -1) {
         if (user.banned) {
             user.afk = -1;
-            user.afkReason = "User Banned Afk";
+            user.afkReason = "🚫 Oops! This user is on a break. Not allowed to be AFK.";
             return;
         }
 
         await console.log("AFK");
         const username = nouser[0].split("@")[0];
         const timeAfk = new Date() - user.afk;
-        const caption = `\n@${username} has stopped being AFK and is currently typing.\n\nReason: ${
-            user.afkReason ? user.afkReason : "No Reason"
-          }\nFor the past ${timeAfk.toTimeString()}.\n`;
+        const caption = `\n🌟 Hold your horses! @${username} has gracefully returned from their AFK journey and is now *typing...* 🚀\n\nWhy were they away, you ask? ${
+            user.afkReason ? `They mentioned: ${user.afkReason}` : "No specific reason. Just life things, you know? 🌈"
+          }\nThis splendid typing session has been underway for approximately ${timeAfk.toTimeString()}. ⏱️\n`;
           
-
         this.reply(id, caption, null, {
             mentions: this.parseMention(caption)
         });
@@ -808,7 +807,6 @@ export async function presenceUpdate(presenceUpdate) {
         user.afkReason = "";
     }
 }
-
 
 /**
 dfail
