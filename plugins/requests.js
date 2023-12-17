@@ -83,7 +83,7 @@ Total pending requests: ${responseList.length}
     }
 };
 
-handler.help = ['requeststojoingroup approve <num>', 'requeststojoingroup'];
+handler.help = ['approve <num>', 'requeststojoingroup'];
 handler.tags = ['group'];
 handler.command = ['requeststojoingroup'];
 handler.isBotAdmin = true;
