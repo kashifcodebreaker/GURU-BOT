@@ -812,10 +812,9 @@ export async function presenceUpdate(presenceUpdate) {
 dfail
  */
 global.dfail = (type, m, conn) => {
-    const userTag = `👋 Hai *@${m.sender.split("@")[0]}*, `
+    const userTag = `👋 Ahoy, *@${m.sender.split("@")[0]}*, `;
     const emoji = {
         general: '⚙️',
-        owner: '👑',
         moderator: '🛡️',
         premium: '💎',
         group: '👥',
@@ -826,38 +825,41 @@ global.dfail = (type, m, conn) => {
         nsfw: '🔞',
         rpg: '🎮',
         restrict: '⛔',
-    }
+        owner: '👑',
+    };
 
     const msg = {
-        owner: `*${emoji.owner} Owner's Query*\n
-    ${userTag} This command can only be used by the *Bot Owner*!`,
-        moderator: `*${emoji.moderator} Moderator's Query*\n
-    ${userTag} This command can only be used by *Moderators*!`,
-        premium: `*${emoji.premium} Premium Query*\n
-    ${userTag} This command is only for *Premium Members*!`,
-        group: `*${emoji.group} Group Query*\n
-    ${userTag} This command can only be used in *Group Chats*!`,
-        private: `*${emoji.private} Private Query*\n
-    ${userTag} This command can only be used in *Private Chats*!`,
-        admin: `*${emoji.admin} Admin's Query*\n
-    ${userTag} This command is only for *Group Admins*!`,
-        botAdmin: `*${emoji.botAdmin} Bot Admin's Query*\n
-    ${userTag} Make the bot an *Admin* to use this command!`,
-        unreg: `*${emoji.unreg} Registration Query*\n
-    ${userTag} Please register to use this feature by typing:\n\n*#register name.age*\n\nExample: *#register ${m.name}.18*!`,
-        nsfw: `*${emoji.nsfw} NSFW Query*\n
-    ${userTag} NSFW is not active. Please contact the Group admin to enable this feature!`,
-        restrict: `*${emoji.restrict} Inactive Feature Query*\n
-    ${userTag} This feature is *disabled*!`,
-    }
-     [type]
-    if (msg) return  m.reply(msg)
+        general: `*${emoji.general} Whoopsie-daisy! Technical Glitch*\n
+    ${userTag} It seems I've encountered a hiccup in my code. Let me give it a tickle and sort it out for you!`,
+        moderator: `*${emoji.moderator} Restricted Command*\n
+    ${userTag} Access denied! This command is like a VIP area—only for the chosen few.`,
+        premium: `*${emoji.premium} Unlock Premium Privileges*\n
+    ${userTag} This special feature is reserved for Premium members. Upgrade for a taste of the good life!`,
+        group: `*${emoji.group} Group Setting Needed*\n
+    ${userTag} This command works its magic in group chats. Gather your comrades and try it there!`,
+        private: `*${emoji.private} Covert Operation Only*\n
+    ${userTag} This command prefers the shadows of private chats. Let's keep our secrets between us!`,
+        admin: `*${emoji.admin} Admin Power Required*\n
+    ${userTag} Only the mighty group administrators can wield this command. Flex those admin muscles!`,
+        botAdmin: `*${emoji.botAdmin} Bot Admin Credentials Needed*\n
+    ${userTag} Grant me the honor of admin status for a smoother command execution. *Bow, beep, boop!*`,
+        owner: `*${emoji.owner} Grandmaster Authorization Required*\n
+    ${userTag} Only the illustrious Grandmaster can perform this operation. Time to summon the wise wizard!`,
+        unreg: `*${emoji.unreg} Registration Required*\n
+    ${userTag} Unlock the gates to this feature by registering. Type:\n\n*#register name.age*\n\nExample: *#register ${m.name}.18*!`,
+        nsfw: `*${emoji.nsfw} NSFW Feature on Break*\n
+    ${userTag} The NSFW feature is currently taking a nap. Contact the group administrator to wake it up!`,
+        restrict: `*${emoji.restrict} Feature Taking a Break*\n
+    ${userTag} This feature is currently on vacation. Stay tuned for its triumphant return!`,
+    };
 
-}
+    const message = msg[type];
+    if (message) return m.reply(message);
+};
 
-let file = global.__filename(import.meta.url, true)
+let file = global.__filename(import.meta.url, true);
 watchFile(file, async () => {
-    unwatchFile(file)
-    console.log(chalk.redBright("Update handler.js"))
-    if (global.reloadHandler) console.log(await global.reloadHandler())
-})
+    unwatchFile(file);
+    console.log(chalk.redBright("Update handler.js"));
+    if (global.reloadHandler) console.log(await global.reloadHandler());
+});
