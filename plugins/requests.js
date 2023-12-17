@@ -1,5 +1,5 @@
-import pkg from '@whiskeysockets/baileys';
-const { groupRequestParticipantsList, groupRequestParticipantsUpdate } = pkg;
+import sock from '@whiskeysockets/baileys';
+const { groupRequestParticipantsList, groupRequestParticipantsUpdate } = sock;
 
 let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
     if (!isBotAdmin || !isAdmin || !m.isGroup) {
