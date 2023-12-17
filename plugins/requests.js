@@ -1,5 +1,6 @@
 import sock from '@whiskeysockets/baileys';
-const { groupRequestParticipantsList, groupRequestParticipantsUpdate } = sock;
+const groupRequestParticipantsList = sock.groupRequestParticipantsList;
+const groupRequestParticipantsUpdate = sock.groupRequestParticipantsUpdate;
 
 let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
     if (!isBotAdmin || !isAdmin || !m.isGroup) {
