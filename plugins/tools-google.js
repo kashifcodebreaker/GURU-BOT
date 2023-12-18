@@ -23,7 +23,7 @@ let handler = async (m, { conn, command, args }) => {
     }
 }
 handler.help = ['google']
-handler.tags = ['search',tools']
+handler.tags = ['search', 'tools']
 handler.command = ['google'] 
 handler.diamond = true
 
