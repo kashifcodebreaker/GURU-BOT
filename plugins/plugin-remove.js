@@ -29,7 +29,7 @@ const handler = async (m, { conn, usedPrefix: _p, __dirname, args, text }) => {
 
 handler.help = ['deleteplugin <name>'];
 handler.tags = ['owner'];
-handler.command = /^(deleteplugin|dp|remove)$/i;
+handler.command = /^(deleteplugin|remove)$/i;
 
 handler.owner = true;
 
