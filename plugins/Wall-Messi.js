@@ -5,6 +5,6 @@ let url = await res[Math.floor(res.length * Math.random())]
 conn.sendFile(m.chat, url, 'error.jpg', `*Messi*`, m)} 
 //conn.sendButton(m.chat, "*Messi*", author, url, [['⚽ NEXT ⚽', `${usedPrefix + command}`]], m)}
 handler.help = ['messi']
-handler.tags = ['img']
+handler.tags = ['image']
 handler.command = /^(messi)$/i
 export default handler
