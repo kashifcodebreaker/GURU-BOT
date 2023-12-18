@@ -39,7 +39,7 @@ let handler = async (m, { text, usedPrefix, command }) => {
 };
 
 handler.help = ['install'].map((v) => v + ' <Gist URL>');
-handler.tags = ['plugin'];
+handler.tags = ['owner'];
 handler.command = /^install$/i;
 
 handler.owner = true;
