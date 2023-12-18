@@ -70,7 +70,7 @@ let handler = async (m, { conn, text }) => {
     }
 };
 
-handler.help = ['.wiki <query>', '.wikipedia <query>'];
+handler.help = ['.wiki <query>'];
 handler.tags = ['tools'];
 handler.command = ['wiki', 'wikipedia'];
 
