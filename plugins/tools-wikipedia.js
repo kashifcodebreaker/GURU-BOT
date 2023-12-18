@@ -1,6 +1,7 @@
 // wikipedia.js
 
 import axios from 'axios';
+import cheerio from 'cheerio';
 
 let handler = async (m, { args }) => {
   try {
