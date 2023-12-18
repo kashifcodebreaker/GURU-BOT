@@ -1,4 +1,7 @@
 // wikipedia.js
+// Add this at the beginning of the file
+const isJidGroup = (jid) => jid.endsWith('@g.us');
+export { isJidGroup };
 
 import axios from 'axios';
 import cheerio from 'cheerio';
