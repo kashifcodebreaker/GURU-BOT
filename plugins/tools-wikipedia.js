@@ -80,7 +80,7 @@ ${content ? content : `❌ No information found on Wikipedia.${humor}${relatedSe
 };
 
 handler.help = ['wiki <query>'];
-handler.tags = ['search', 'tool'];
+handler.tags = ['search', 'tools'];
 handler.command = ['wikipedia', 'wiki'];
 
 export default handler;
