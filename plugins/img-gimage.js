@@ -38,7 +38,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ['image'];
-handler.tags = ['fun'];
+handler.tags = ['fun', 'downloader, 'image'];
 handler.command = ['img', 'gimage'];
 
 export default handler;
