@@ -20,8 +20,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 };
 
-handler.help = ['silver', silverfox];
-handler.tags = ['fun','ai'];
+handler.help = ['silver', 'silverfox'];
+handler.tags = ['ai','fun'];
 handler.command = ['bot', 'silver', 'silver fox', 'fox'];
 
 export default handler;
