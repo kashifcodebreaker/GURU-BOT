@@ -52,21 +52,17 @@ let handler = async (m, { args, conn }) => {
       ? "\n\n🤔 *Feeling adventurous? Wikipedia suggests exploring these related searches!*"
       : '';
 
+    // Prepare a message for not finding the information
+    const notFoundMessage = `❌ *Wikipedia Search:* Well, it seems Wikipedia couldn't find what you were looking for. Maybe it's an undiscovered topic!`;
+
     // Send the rich response with image and text as caption
     await conn.sendFile(m.chat, image, 'image.png', `
 🌐 *Language:* ${languageCode}
 🕒 *Timestamp:* ${timestamp}
 📚 *Title:* ${page.title}
 🔗 *Link:* ${url}
-${content ? content : `❌ No information found on Wikipedia.${humor}${relatedSearches}`}
+${content ? content : `${notFoundMessage}${humor}${relatedSearches}`}
     `, m);
-
-    // Add a touch of humor in the reply message
-    if (isDisambiguation) {
-      m.reply('📚 *Wikipedia Search:* Too many options, huh? Wikipedia is like a treasure hunt. Dive into these related searches!');
-    } else if (!content) {
-      m.reply('❌ *Wikipedia Search:* Well, it seems Wikipedia couldn\'t find what you were looking for. Maybe it\'s an undiscovered topic!');
-    }
 
   } catch (error) {
     console.error('Error fetching data from Wikipedia API:', error);
@@ -81,4 +77,4 @@ handler.tags = ['search', 'tools'];
 handler.command = ['wikipedia', 'wiki'];
 
 export default handler;
-    
+
