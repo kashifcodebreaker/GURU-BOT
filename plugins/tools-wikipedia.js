@@ -38,8 +38,8 @@ let handler = async (m, { args, conn }) => {
 
     // Prepare additional information
     const languageCode = 'en'; // Default language is English
-    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const url = `https://${languageCode}.wikipedia.org/wiki/${encodeURIComponent(query)}`;
+    const timestamp = new Date().toUTCString();
+    const url = `https://${languageCode}.wikipedia.org/wiki/${encodeURIComponent(page.title)}`;
 
     // Prepare related searches
     const relatedSearches = isDisambiguation
@@ -55,12 +55,18 @@ let handler = async (m, { args, conn }) => {
     // Send the rich response with image and text as caption
     await conn.sendFile(m.chat, image, 'image.png', `
 🌐 *Language:* ${languageCode}
-⏰ *Timestamp:* ${timestamp}
+🕒 *Timestamp:* ${timestamp}
 📚 *Title:* ${page.title}
 🔗 *Link:* ${url}
-🔍 *Result:* ${content ? 'Found' : 'Not Found'}
 ${content ? content : `❌ No information found on Wikipedia.${humor}${relatedSearches}`}
     `, m);
+
+    // Add a touch of humor in the reply message
+    if (isDisambiguation) {
+      m.reply('📚 *Wikipedia Search:* Too many options, huh? Wikipedia is like a treasure hunt. Dive into these related searches!');
+    } else if (!content) {
+      m.reply('❌ *Wikipedia Search:* Well, it seems Wikipedia couldn\'t find what you were looking for. Maybe it\'s an undiscovered topic!');
+    }
 
   } catch (error) {
     console.error('Error fetching data from Wikipedia API:', error);
@@ -75,4 +81,4 @@ handler.tags = ['search', 'tools'];
 handler.command = ['wikipedia', 'wiki'];
 
 export default handler;
-      
+    
