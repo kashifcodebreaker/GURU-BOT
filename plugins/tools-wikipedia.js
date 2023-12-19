@@ -52,17 +52,15 @@ let handler = async (m, { args, conn }) => {
       ? "\n\n🤔 *Feeling adventurous? Wikipedia suggests exploring these related searches!*"
       : '';
 
-    // Send the rich response with image
-    await conn.sendFile(m.chat, image, null, {
-      caption: `
+    // Send the rich response with image and text as caption
+    await conn.sendFile(m.chat, image, 'image.png', `
 🌐 *Language:* ${languageCode}
 ⏰ *Timestamp:* ${timestamp}
 📚 *Title:* ${page.title}
 🔗 *Link:* ${url}
 🔍 *Result:* ${content ? 'Found' : 'Not Found'}
 ${content ? content : `❌ No information found on Wikipedia.${humor}${relatedSearches}`}
-      `,
-    });
+    `, m);
 
   } catch (error) {
     console.error('Error fetching data from Wikipedia API:', error);
@@ -77,3 +75,4 @@ handler.tags = ['search', 'tools'];
 handler.command = ['wikipedia', 'wiki'];
 
 export default handler;
+      
