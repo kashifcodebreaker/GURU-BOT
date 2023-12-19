@@ -53,24 +53,33 @@ let handler = async (m, { args, conn }) => {
       : '';
 
     // Send the rich response with image
-    const mediaType = MessageType.image;
-    const mediaData = await conn.prepareMessageMedia(image, mediaType, { thumbnail: Buffer.alloc(0) });
-    const imageMessage = { ...m.message, mediaData, mediaType };
-
-    // Send the rich response
-    await conn.sendMessage(m.chat, imageMessage, MessageType.text, {
-      detectLinks: false,
-      linkPreview: false,
-      quoted: m,
-      caption: `
+    if (image) {
+      await conn.sendMessage(m.chat, image, MessageType.image, {
+        caption: `
 🌐 *Language:* ${languageCode}
 ⏰ *Timestamp:* ${timestamp}
 📚 *Title:* ${page.title}
 🔗 *Link:* ${url}
 🔍 *Result:* ${content ? 'Found' : 'Not Found'}
 ${content ? content : `❌ No information found on Wikipedia.${humor}${relatedSearches}`}
-      `,
-    });
+        `,
+        quoted: m,
+      });
+    } else {
+      // Send without image if not available
+      await conn.sendMessage(m.chat, `
+🌐 *Language:* ${languageCode}
+⏰ *Timestamp:* ${timestamp}
+📚 *Title:* ${page.title}
+🔗 *Link:* ${url}
+🔍 *Result:* ${content ? 'Found' : 'Not Found'}
+${content ? content : `❌ No information found on Wikipedia.${humor}${relatedSearches}`}
+      `, MessageType.text, {
+        detectLinks: false,
+        linkPreview: false,
+        quoted: m,
+      });
+    }
 
   } catch (error) {
     console.error('Error fetching data from Wikipedia API:', error);
@@ -85,4 +94,4 @@ handler.tags = ['search', 'tools'];
 handler.command = ['wikipedia', 'wiki'];
 
 export default handler;
-                 
+      
