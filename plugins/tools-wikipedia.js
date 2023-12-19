@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { MessageType } from '@whiskeysockets/baileys';
 
 let handler = async (m, { args, conn }) => {
   try {
