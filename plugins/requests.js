@@ -1,16 +1,12 @@
 import pkg from '@whiskeysockets/baileys';
 const { makeGroupsSocket } = pkg;
 
-     console.log(baileys);
-
 let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
     if (!isBotAdmin || !isAdmin || !m.isGroup) {
         return;
     }
 
     const groupId = m.chat;
-    console.log('Group ID:', groupId);
-    
     const isApproveCommand = args[0]?.toLowerCase() === 'approve';
 
     if (!isApproveCommand) {
@@ -98,4 +94,4 @@ handler.isAdmin = true;
 handler.isGroup = true;
 
 export default handler;
-    
+   
