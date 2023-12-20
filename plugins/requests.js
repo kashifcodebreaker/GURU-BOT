@@ -1,7 +1,7 @@
 import pkg from '@whiskeysockets/baileys';
 const { makeGroupsSocket } = pkg;
 
-let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
+let handler = async (m, { conn, args, isAdmin, isBotAdmin, participants, groupMetadata, usedPrefix }) => {
     if (!isBotAdmin || !isAdmin || !m.isGroup) {
         return;
     }
@@ -11,13 +11,13 @@ let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
 
     if (!isApproveCommand) {
         try {
-            const responseList = await makeGroupsSocket({}).groupRequestParticipantsList(groupId);
+            const responseList = await makeGroupsSocket({}).groupRequestParticipantsList(${groupMetadata.id});
 
             if (responseList.length === 0) {
                 return m.reply('👥 No pending join requests. Your group is already as exclusive as a VIP club!');
             }
 
-            const groupInfo = await conn.groupMetadata(groupId);
+            const groupInfo = await ${groupMetadata.id};
             const numMembersNow = groupInfo.participants.length;
 
             return m.reply(`
@@ -28,7 +28,7 @@ let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
 *requeststojoingroup approve <num>*
 
 Example:
-*requeststojoingroup approve 3*
+*${usedPrefix}requeststojoingroup approve 3*
             `);
         } catch (error) {
             console.error('Error fetching join requests:', error);
@@ -48,7 +48,7 @@ Example:
     const numToApprove = parseInt(args[1]);
 
     try {
-        const responseList = await makeGroupsSocket({}).groupRequestParticipantsList(groupId);
+        const responseList = await makeGroupsSocket({}).groupRequestParticipantsList(${groupMetadata.id});
 
         if (numToApprove > responseList.length) {
             return m.reply(`
@@ -60,13 +60,13 @@ Total pending requests: ${responseList.length}
 
         const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
 
-        const responseUpdate = await makeGroupsSocket({}).groupRequestParticipantsUpdate(groupId, membersToApprove, 'approve');
+        const responseUpdate = await makeGroupsSocket({}).groupRequestParticipantsUpdate(${groupMetadata.id}, membersToApprove, 'approve');
 
         if (responseUpdate.status === 200) {
             const numApproved = membersToApprove.length;
             const numLeft = responseList.length - numApproved;
 
-            const groupInfo = await conn.groupMetadata(groupId);
+            const groupInfo = await ${groupMetadata.id};
             const numMembersNow = groupInfo.participants.length;
 
             return m.reply(`
@@ -86,9 +86,9 @@ Total pending requests: ${responseList.length}
     }
 };
 
-handler.help = ['approve <num>', 'requeststojoingroup'];
+handler.help = ['requeststojoingroup', 'approve <num>'];
 handler.tags = ['group'];
-handler.command = ['requeststojoingroup'];
+handler.command = ['requeststojoingroup', 'requeststojoingroup approve'];
 handler.isBotAdmin = true;
 handler.isAdmin = true;
 handler.isGroup = true;
