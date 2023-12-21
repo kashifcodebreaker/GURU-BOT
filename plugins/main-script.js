@@ -1,54 +1,53 @@
-import { promises } from 'fs';
-import { join } from 'path';
-import axios from 'axios'; 
+let handler = async (m, { conn }) => {
+    const termsAndConditions = `
+**Terms and Conditions for Using Our Bot**
 
-let handler = async function (m, { conn, __dirname }) {
-  const githubRepoURL = 'https://github.com/Guru322/GURU-BOT';
+By using this bot, you agree to comply with the following terms and conditions:
 
-  try {
-  
-    const [, username, repoName] = githubRepoURL.match(/github\.com\/([^/]+)\/([^/]+)/);
+1. **Respectful Usage:** Users are expected to use the bot in a respectful and considerate manner. Any form of harassment, abuse, or misuse of the bot is strictly prohibited.
 
-    const response = await axios.get(`https://api.github.com/repos/${username}/${repoName}`);
+2. **Privacy:** We prioritize user privacy. The bot does not store personal information unless explicitly required for functionality. We do not share user data with third parties.
 
-    if (response.status === 200) {
-      const repoData = response.data;
+3. **Abuse of Commands:** Any attempt to abuse or exploit commands for malicious purposes is strictly prohibited. Users found violating this rule may be subject to a ban.
 
-      // Format the repository information with emojis
-      const formattedInfo = `
-📂 Repository Name: ${repoData.name}
-📝 Description: ${repoData.description}
-👤 Owner: ${repoData.owner.login}
-⭐ Stars: ${repoData.stargazers_count}
-🍴 Forks: ${repoData.forks_count}
-🌐 URL: ${repoData.html_url}
-      `.trim();
+4. **Content Responsibility:** Users are solely responsible for the content they generate or share using the bot. Any inappropriate, offensive, or illegal content will not be tolerated.
 
-      // Send the formatted information as a message
-      await conn.relayMessage(m.chat,  {
-        requestPaymentMessage: {
-          currencyCodeIso4217: 'INR',
-          amount1000: 69000,
-          requestFrom: m.sender,
-          noteMessage: {
-          extendedTextMessage: {
-          text: formattedInfo,
-          contextInfo: {
-          externalAdReply: {
-          showAdAttribution: true
-          }}}}}}, {})
-    } else {
-      // Handle the case where the API request fails
-      await conn.reply(m.chat, 'Unable to fetch repository information.', m);
-    }
-  } catch (error) {
-    console.error(error);
-    await conn.reply(m.chat, 'An error occurred while fetching repository information.', m);
-  }
+5. **Bot Availability:** We strive to maintain the availability and reliability of the bot. However, we cannot guarantee uninterrupted service and reserve the right to temporarily or permanently disable the bot without notice.
+
+6. **Updates and Changes:** The bot may undergo updates, modifications, or changes to enhance functionality or address issues. Users are encouraged to stay informed about these updates.
+
+7. **Feedback and Support:** Users are welcome to provide feedback or report issues. Support will be provided as best as possible, but we do not guarantee immediate resolution.
+
+8. **Legal Compliance:** Users must comply with all applicable laws and regulations while using the bot. Any unlawful activity will result in immediate termination of bot access.
+
+9. **Usage Limitations:** Excessive usage that adversely affects server performance or stability is not allowed. We reserve the right to impose usage limitations.
+
+10. **Dispute Resolution:** Any disputes arising from the use of the bot will be resolved through negotiation. If a resolution cannot be reached, legal action may be pursued.
+
+**Rule Violations and Consequences:**
+Breaking the rules will result in a ban, and we reserve the right to ban users for the following or any reasons:
+
+• Calling the bot
+• Using unlisted commands (commands not listed in the menu) repetitively
+• Insulting/ignoring bot staff/administrator warnings
+• Spamming in private or in groups
+• Copying bot content or any unauthorized use of bot resources
+
+**We reserve the right to ban users at our discretion for any reason.**
+
+**Disclaimer:** We are not responsible for any consequences resulting from the use of this bot, including unauthorized use or copying of bot content.
+
+*Note: These terms and conditions are subject to change. Users are advised to review them periodically.*
+
+---
+`;
+
+    conn.sendMessage(m.chat, { url: 'data:text/plain;base64,' + Buffer.from(termsAndConditions).toString('base64') }, MessageType.document, { mimetype: 'text/plain', filename: 'Terms_and_Conditions.txt', externalAdReply: { showAdAttribution: true } });
 };
 
-handler.help = ['script'];
-handler.tags = ['main'];
-handler.command = ['sc', 'repo', 'script'];
+handler.command = ['terms'];
+handler.tags = ['info'];
+handler.help = ['terms'];
+handler.group = true;
 
 export default handler;
