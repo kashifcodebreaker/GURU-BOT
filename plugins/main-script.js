@@ -48,10 +48,10 @@ Breaking the rules will result in a ban, and we reserve the right to ban users f
 
     fs.writeFileSync(fileName, termsAndConditions);
 
-    conn.sendFile(m.chat, fileName, 'Terms_and_Conditions.txt', null, { externalAdReply: { showAdAttribution: true } });
+    // Send the file
+    conn.sendFile(m.chat, fs.readFileSync(fileName), fileName, 'Terms and Conditions', m);
 
     fs.unlinkSync(fileName); // Delete the file after sending
-
 };
 
 handler.command = ['terms'];
