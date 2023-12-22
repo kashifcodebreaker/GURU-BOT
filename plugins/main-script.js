@@ -1,62 +1,138 @@
-import fs from 'fs';
+import { createWriteStream } from 'fs';
+import { promisify } from 'util';
+import { PDFDocument } from 'pdf-lib';
 
-let handler = async (m, { conn }) => {
-    const termsAndConditions = `
-**Terms and Conditions for Using Our Bot**
+const writeAsync = promisify(createWriteStream);
+const unlinkAsync = promisify(unlink);
 
-By using this bot, you agree to comply with the following terms and conditions:
+const termsAndConditions = `
+# Silver Fox Bot Terms and Conditions
 
-1. **Respectful Usage:** Users are expected to use the bot in a respectful and considerate manner. Any form of harassment, abuse, or misuse of the bot is strictly prohibited.
+## 1. Introduction
 
-2. **Privacy:** We prioritize user privacy. The bot does not store personal information unless explicitly required for functionality. We do not share user data with third parties.
+Welcome to Silver Fox bot, your delightful virtual companion! These comprehensive terms and conditions detail the guidelines for engaging with our innovative chatbot, hereafter referred to as "the bot." Please read these terms attentively to ensure a harmonious and enjoyable experience.
 
-3. **Abuse of Commands:** Any attempt to abuse or exploit commands for malicious purposes is strictly prohibited. Users found violating this rule may be subject to a ban.
+## 2. Definitions
 
-4. **Content Responsibility:** Users are solely responsible for the content they generate or share using the bot. Any inappropriate, offensive, or illegal content will not be tolerated.
+- **Bot:** Refers to Silver Fox Bot, an advanced virtual assistant designed to enrich your conversational interactions.
+- **User:** Any individual accessing or interacting with the bot.
+- **Content:** Encompasses text, images, videos, or any other material transmitted through the bot.
 
-5. **Bot Availability:** We strive to maintain the availability and reliability of the bot. However, we cannot guarantee uninterrupted service and reserve the right to temporarily or permanently disable the bot without notice.
+## 3. User Responsibilities
 
-6. **Updates and Changes:** The bot may undergo updates, modifications, or changes to enhance functionality or address issues. Users are encouraged to stay informed about these updates.
+1. **Compliance:** Users are expected to adhere to all applicable laws, regulations, and these terms during their interactions with the bot.
+2. **Respectful Conduct:** We encourage users to engage respectfully, refraining from harassment or any form of abusive behavior.
+3. **Prohibited Activities:** Users shall not employ the bot for malicious purposes or disseminate harmful content.
 
-7. **Feedback and Support:** Users are welcome to provide feedback or report issues. Support will be provided as best as possible, but we do not guarantee immediate resolution.
+## 4. Privacy and Data Handling
 
-8. **Legal Compliance:** Users must comply with all applicable laws and regulations while using the bot. Any unlawful activity will result in immediate termination of bot access.
+1. **Data Privacy:** Silver Fox Bot prioritizes user privacy and employs stringent measures to protect personal information.
+2. **User Content:** Users are solely responsible for the content they share during interactions with the bot.
+3. **Data Security:** Industry-standard security measures are implemented to safeguard user data.
 
-9. **Usage Limitations:** Excessive usage that adversely affects server performance or stability is not allowed. We reserve the right to impose usage limitations.
+## 5. Usage Restrictions
 
-10. **Dispute Resolution:** Any disputes arising from the use of the bot will be resolved through negotiation. If a resolution cannot be reached, legal action may be pursued.
+1. **Modification:** Users must not attempt to reverse engineer, modify, or tamper with the bot's underlying structure.
+2. **Commercial Use:** Unauthorized commercial exploitation of the bot for profit or business purposes is strictly prohibited.
+3. **Spam and Disruption:** Users shall refrain from engaging in spamming or any activities that disrupt the bot's functionality.
 
-**Rule Violations and Consequences:**
-Breaking the rules will result in a ban, and we reserve the right to ban users for the following or any reasons:
+## 6. Limitation of Liability
 
-• Calling the bot
-• Using unlisted commands (commands not listed in the menu) repetitively
-• Insulting/ignoring bot staff/administrator warnings
-• Spamming in private or in groups
-• Copying bot content or any unauthorized use of bot resources
+1. **Disclaimer:** Silver Fox Bot is provided on an "as is" basis without any warranty.
+2. **Damages:** We are not liable for any direct, indirect, or consequential damages arising from the use or inability to use the bot.
 
-**We reserve the right to ban users at our discretion for any reason.**
+## 7. Changes to Terms
 
-**Disclaimer:** We are not responsible for any consequences resulting from the use of this bot, including unauthorized use or copying of bot content.
+We reserve the right to modify, replace, or update these terms at any time. Users are encouraged to periodically review the terms for any changes.
 
-*Note: These terms and conditions are subject to change. Users are advised to review them periodically.*
+## 8. User Conduct and Interactions
 
----
+1. **Inappropriate Content:** Users must refrain from sharing explicit, offensive, or violative content.
+2. **Interactions with Other Users:** Users are responsible for their interactions with other users facilitated by the bot.
+
+## 9. Termination of Services
+
+We reserve the right to terminate services to users who violate these terms or engage in misuse of the bot.
+
+## 10. Contact Information
+
+For inquiries or concerns regarding these terms, please contact us at support@silverfoxbot.com.
+
+## 11. Acceptance of Terms
+
+By using Silver Fox Bot, you acknowledge that you have read, understood, and agreed to these terms and conditions.
+
+## 12. Governing Law
+
+These terms and conditions are governed by and construed in accordance with the laws of [Your Jurisdiction]. Any disputes will be subject to the exclusive jurisdiction of the courts in that jurisdiction.
+
+## 13. NSFW Content Disclaimer
+
+Silver Fox Bot supports NSFW (Not Safe For Work) content, which includes explicit material. To access such content, users must confirm their age and register as 18 years or older. We advise users to exercise caution and discretion.
+
+## 14. Warnings and Disclaimers
+
+Silver Fox Bot provides content for entertainment purposes only. The bot may generate humorous or fictional responses, and users are encouraged to interpret responses within this context.
+
+## 15. Effective Date
+
+These terms were last updated on December 22, 2023. Your continued use of Silver Fox Bot implies acceptance of the most recent version of these terms.
+
+Thank you for choosing Silver Fox Bot! We hope you enjoy the extended experience.
 `;
 
-    const fileName = 'Terms_and_Conditions.txt';
+let handler = async (m, { conn }) => {
+    try {
+        const pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage();
 
-    fs.writeFileSync(fileName, termsAndConditions);
+        // Embed fonts
+        const regularFont = await pdfDoc.embedFont(PDFDocument.Font.Helvetica);
+        const boldFont = await pdfDoc.embedFont(PDFDocument.Font.HelveticaBold);
 
-    // Send the file
-    conn.sendFile(m.chat, fs.readFileSync(fileName), fileName, 'Terms and Conditions', m);
+        const headings = termsAndConditions.match(/^##\s(.+)$/gm);
 
-    fs.unlinkSync(fileName); // Delete the file after sending
+        // Add headings and content
+        headings.forEach((heading, index) => {
+            const content = termsAndConditions.split(headings[index + 1] || '').pop();
+            const fontSize = index === 0 ? 18 : 12;
+
+            page.drawText(heading.replace(/^##\s/, ''), {
+                font: index === 0 ? boldFont : regularFont,
+                fontSize,
+                x: 50,
+                y: page.getHeight() - (index === 0 ? 50 : (index === 1 ? 100 : 150)),
+                lineHeight: 15,
+            });
+
+            page.drawText(content.trim(), {
+                font: regularFont,
+                fontSize: 12,
+                x: 70,
+                y: page.getHeight() - (index === 0 ? 100 : (index === 1 ? 150 : 200)),
+                lineHeight: 12,
+            });
+        });
+
+        const pdfBytes = await pdfDoc.save();
+
+        // Save the PDF file
+        await writeAsync('Terms_and_Conditions.pdf', pdfBytes);
+
+        // Send the PDF file
+        conn.sendFile(m.chat, 'Terms_and_Conditions.pdf', 'Terms and Conditions', m, { quoted: m });
+        
+        // Delete the file from RAM
+        await unlinkAsync(filePath);
+    } catch (error) {
+        console.error('Error sending Terms and Conditions:', error);
+        m.reply('❌ Error sending Terms and Conditions. Please try again later.');
+    }
 };
 
-handler.command = ['terms'];
-handler.tags = ['info'];
 handler.help = ['terms'];
-handler.group = true;
+handler.tags = ['main'];
+handler.command = ['terms'];
 
 export default handler;
+                
