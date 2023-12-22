@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 let handler = async (m, { conn }) => {
     const termsAndConditions = `
 **Terms and Conditions for Using Our Bot**
@@ -42,7 +44,14 @@ Breaking the rules will result in a ban, and we reserve the right to ban users f
 ---
 `;
 
-    conn.sendMessage(m.chat, { url: 'data:text/plain;base64,' + Buffer.from(termsAndConditions).toString('base64') }, MessageType.document, { mimetype: 'text/plain', filename: 'Terms_and_Conditions.txt', externalAdReply: { showAdAttribution: true } });
+    const fileName = 'Terms_and_Conditions.txt';
+
+    fs.writeFileSync(fileName, termsAndConditions);
+
+    conn.sendFile(m.chat, fileName, 'Terms_and_Conditions.txt', null, { externalAdReply: { showAdAttribution: true } });
+
+    fs.unlinkSync(fileName); // Delete the file after sending
+
 };
 
 handler.command = ['terms'];
