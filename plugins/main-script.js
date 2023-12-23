@@ -1,9 +1,9 @@
-import { createWriteStream } from 'fs';
+import { createWriteStream, promises as fsPromises } from 'fs';
 import { promisify } from 'util';
 import { PDFDocument } from 'pdf-lib';
 
 const writeAsync = promisify(createWriteStream);
-const unlinkAsync = promisify(unlink);
+const unlinkAsync = fsPromises.unlink;
 
 const termsAndConditions = `
 # Silver Fox Bot Terms and Conditions
@@ -117,11 +117,12 @@ let handler = async (m, { conn }) => {
         const pdfBytes = await pdfDoc.save();
 
         // Save the PDF file
-        await writeAsync('Terms_and_Conditions.pdf', pdfBytes);
+        const filePath = 'Terms_and_Conditions.pdf';
+        await writeAsync(filePath, pdfBytes);
 
         // Send the PDF file
-        conn.sendFile(m.chat, 'Terms_and_Conditions.pdf', 'Terms and Conditions', m, { quoted: m });
-        
+        conn.sendFile(m.chat, filePath, 'Terms and Conditions', m, { quoted: m });
+
         // Delete the file from RAM
         await unlinkAsync(filePath);
     } catch (error) {
@@ -131,8 +132,7 @@ let handler = async (m, { conn }) => {
 };
 
 handler.help = ['terms'];
-handler.tags = ['main'];
+handler.tags = ['info'];
 handler.command = ['terms'];
 
 export default handler;
-                
