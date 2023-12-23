@@ -31,9 +31,9 @@ let handler = async (m, { args, conn }) => {
     const pageId = Object.keys(pages)[0];
     const page = pages[pageId];
     const content = page.extract;
-    const image = page.thumbnail?.source;
+    const wikimage = page.thumbnail?.source;
 
-    console.log('Image:', image); 
+    console.log('wikimage:', error); 
 
     // Check if the search result is ambiguous (disambiguation)
     const isDisambiguation = content && content.includes('may refer to:');
@@ -58,7 +58,7 @@ let handler = async (m, { args, conn }) => {
     const notFoundMessage = `❌ *Wikipedia Search:* Well, it seems Wikipedia couldn't find what you were looking for. Maybe it's an undiscovered topic!`;
 
     // Send the rich response with image and text as caption
-    await conn.sendFile(m.chat, image, 'image.png', `
+    await conn.sendFile(m.chat, wikimage, 'image.png', `
 🌐 *Language:* ${languageCode}
 🕒 *Timestamp:* ${timestamp}
 📚 *Title:* ${page.title}
