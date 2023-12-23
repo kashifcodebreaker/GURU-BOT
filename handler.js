@@ -576,10 +576,10 @@ export async function participantsUpdate({
                         contextInfo: {
                         mentionedJid: [user],
                         externalAdReply: {
-                        title: "ᴛʜᴇ ɢᴜʀᴜ-ʙᴏᴛ",
-                        body: "welcome to Group",
+                        title: "Silver Fox",
+                        body: "Welcome to Group",
                         thumbnailUrl: welcomeApiUrl,
-                        sourceUrl: 'https://chat.whatsapp.com/BFfD1C0mTDDDfVdKPkxRAA',
+                        sourceUrl: 'https://chat.whatsapp.com/BFfD1C0mTDDDfVdKPkxRAB',
                         mediaType: 1,
                         renderLargerThumbnail: true
                         }}})
@@ -629,10 +629,10 @@ export async function participantsUpdate({
                         contextInfo: {
                         mentionedJid: [user],
                         externalAdReply: {
-                        title: "ᴛʜᴇ ɢᴜʀᴜ-ʙᴏᴛ",
+                        title: "Silver Fox",
                         body: "Goodbye from  Group",
                         thumbnailUrl: leaveApiUrl,
-                        sourceUrl: 'https://chat.whatsapp.com/BFfD1C0mTDDDfVdKPkxRAA',
+                        sourceUrl: 'https://chat.whatsapp.com/BFfD1C0mTDDDfVdKPkxRAB',
                         mediaType: 1,
                         renderLargerThumbnail: true
                         }}})
