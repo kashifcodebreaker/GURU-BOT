@@ -48,6 +48,7 @@
         "axios": "^1.4.0",
         "canvacord": "^5.4.8",
         "cfonts": "^3.1.1",
+        "pdf-lib": "^1.16.0"
         "chess.js": "*",
         "chalk": "^5.1.0",
         "cheerio": "^1.0.0-rc.12",
