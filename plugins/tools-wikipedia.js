@@ -33,6 +33,8 @@ let handler = async (m, { args, conn }) => {
     const content = page.extract;
     const image = page.thumbnail?.source;
 
+    console.log('Image:', image); 
+
     // Check if the search result is ambiguous (disambiguation)
     const isDisambiguation = content && content.includes('may refer to:');
 
