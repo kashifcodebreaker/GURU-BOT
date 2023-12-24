@@ -83,19 +83,22 @@ Thank you for choosing Silver Fox Bot! We hope you enjoy the extended experience
 
 let handler = async (m, { conn }) => {
     try {
-        console.log('Terms and Conditions command initiated.');
-
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage();
 
-        // Add headings and content
+        // Embed fonts
+        const regularFont = await pdfDoc.embedFont(PDFDocument.Font.Helvetica);
+        const boldFont = await pdfDoc.embedFont(PDFDocument.Font.HelveticaBold);
+
         const headings = termsAndConditions.match(/^##\s(.+)$/gm);
 
+        // Add headings and content
         headings.forEach((heading, index) => {
             const content = termsAndConditions.split(headings[index + 1] || '').pop();
             const fontSize = index === 0 ? 18 : 12;
 
             page.drawText(heading.replace(/^##\s/, ''), {
+                font: index === 0 ? boldFont : regularFont,
                 fontSize,
                 x: 50,
                 y: page.getHeight() - (index === 0 ? 50 : (index === 1 ? 100 : 150)),
@@ -103,6 +106,7 @@ let handler = async (m, { conn }) => {
             });
 
             page.drawText(content.trim(), {
+                font: regularFont,
                 fontSize: 12,
                 x: 70,
                 y: page.getHeight() - (index === 0 ? 100 : (index === 1 ? 150 : 200)),
