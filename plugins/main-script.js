@@ -1,6 +1,7 @@
 import { createWriteStream, promises as fsPromises } from 'fs';
 import { promisify } from 'util';
 import { PDFDocument } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
 
 const writeAsync = promisify(createWriteStream);
 const unlinkAsync = fsPromises.unlink;
@@ -89,9 +90,6 @@ let handler = async (m, { conn }) => {
         // Embed fonts
 const regularFontBytes = await pdfDoc.embedFont(fontkit.create('Helvetica'));
 const boldFontBytes = await pdfDoc.embedFont(fontkit.create('Helvetica-Bold'));
-
-const regularFont = await pdfDoc.embedFont(regularFontBytes);
-const boldFont = await pdfDoc.embedFont(boldFontBytes);
         
         const headings = termsAndConditions.match(/^##\s(.+)$/gm);
 
