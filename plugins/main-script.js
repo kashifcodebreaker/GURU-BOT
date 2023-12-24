@@ -1,7 +1,7 @@
 import { createWriteStream, promises as fsPromises } from 'fs';
 import { promisify } from 'util';
 import { PDFDocument } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
+import fontkit from 'fontkit';
 
 const writeAsync = promisify(createWriteStream);
 const unlinkAsync = fsPromises.unlink;
