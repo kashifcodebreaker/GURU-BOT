@@ -87,9 +87,12 @@ let handler = async (m, { conn }) => {
         const page = pdfDoc.addPage();
 
         // Embed fonts
-        const regularFont = await pdfDoc.embedFont(PDFDocument.Font.Helvetica);
-        const boldFont = await pdfDoc.embedFont(PDFDocument.Font.HelveticaBold);
+const regularFontBytes = await pdfDoc.embedFont(fontkit.create('Helvetica'));
+const boldFontBytes = await pdfDoc.embedFont(fontkit.create('Helvetica-Bold'));
 
+const regularFont = await pdfDoc.embedFont(regularFontBytes);
+const boldFont = await pdfDoc.embedFont(boldFontBytes);
+        
         const headings = termsAndConditions.match(/^##\s(.+)$/gm);
 
         // Add headings and content
