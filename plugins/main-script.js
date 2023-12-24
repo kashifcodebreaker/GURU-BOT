@@ -1,7 +1,6 @@
 import { createWriteStream, promises as fsPromises } from 'fs';
 import { promisify } from 'util';
-import { PDFDocument } from 'pdf-lib';
-import fontkit from 'fontkit';
+import { PDFDocument, rgb } from 'pdf-lib';
 
 const writeAsync = promisify(createWriteStream);
 const unlinkAsync = fsPromises.unlink;
@@ -87,34 +86,27 @@ let handler = async (m, { conn }) => {
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage();
 
-        // Embed fonts
-const regularFontBytes = await pdfDoc.embedFont(fontkit.create('Helvetica'));
-const boldFontBytes = await pdfDoc.embedFont(fontkit.create('Helvetica-Bold'));
+        const { width, height } = page.getSize();
+        const fontSize = 12;
 
-const regularFont = await pdfDoc.embedFont(regularFontBytes);
-const boldFont = await pdfDoc.embedFont(boldFontBytes);
-        
         const headings = termsAndConditions.match(/^##\s(.+)$/gm);
 
         // Add headings and content
         headings.forEach((heading, index) => {
             const content = termsAndConditions.split(headings[index + 1] || '').pop();
-            const fontSize = index === 0 ? 18 : 12;
 
             page.drawText(heading.replace(/^##\s/, ''), {
-                font: index === 0 ? boldFont : regularFont,
-                fontSize,
                 x: 50,
-                y: page.getHeight() - (index === 0 ? 50 : (index === 1 ? 100 : 150)),
-                lineHeight: 15,
+                y: height - (index * 50 + 50),
+                fontSize: 18,
+                color: rgb(0, 0, 0), // black
             });
 
             page.drawText(content.trim(), {
-                font: regularFont,
-                fontSize: 12,
                 x: 70,
-                y: page.getHeight() - (index === 0 ? 100 : (index === 1 ? 150 : 200)),
-                lineHeight: 12,
+                y: height - (index * 50 + 100),
+                fontSize,
+                color: rgb(0, 0, 0), // black
             });
         });
 
