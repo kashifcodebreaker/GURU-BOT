@@ -83,6 +83,8 @@ Thank you for choosing Silver Fox Bot! We hope you enjoy the extended experience
 
 let handler = async (m, { conn }) => {
     try {
+        console.log('Terms and Conditions command initiated.');
+
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage();
 
