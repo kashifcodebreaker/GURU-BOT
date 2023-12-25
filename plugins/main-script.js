@@ -1,6 +1,7 @@
 import { createWriteStream, promises as fsPromises } from 'fs';
 import { promisify } from 'util';
-import { PDFDocument, rgb } from 'pdf-lib';
+import { PDFDocument } from 'pdf-lib';
+import fontkit from 'fontkit';
 
 const writeAsync = promisify(createWriteStream);
 const unlinkAsync = fsPromises.unlink;
@@ -81,45 +82,60 @@ These terms were last updated on December 22, 2023. Your continued use of Silver
 Thank you for choosing Silver Fox Bot! We hope you enjoy the extended experience.
 `;
 
+const parseHeadings = (text) => {
+    const regex = /^#{1,3}\s(.+)$/gm;
+    const matches = [];
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+        matches.push({ level: match[0].length, text: match[1] });
+    }
+    return matches;
+};
+
 let handler = async (m, { conn }) => {
     try {
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage();
+        pdfDoc.registerFontkit(fontkit);
 
-        const { width, height } = page.getSize();
-        const fontSize = 12;
+        // Embed the default font (Helvetica)
+        const fontBytes = await pdfDoc.embedFont(PDFDocument.Font.Helvetica);
 
-        const headings = termsAndConditions.match(/^##\s(.+)$/gm);
+        const headings = parseHeadings(termsAndConditions);
 
         // Add headings and content
         headings.forEach((heading, index) => {
-            const content = termsAndConditions.split(headings[index + 1] || '').pop();
+            const content = headings[index + 1]
+                ? termsAndConditions.substring(
+                      termsAndConditions.indexOf(headings[index].text),
+                      termsAndConditions.indexOf(headings[index + 1].text)
+                  )
+                : termsAndConditions.substring(termsAndConditions.indexOf(headings[index].text));
 
-            page.drawText(heading.replace(/^##\s/, ''), {
+            const fontSize = heading.level === 1 ? 18 : 12;
+
+            page.drawText(heading.text, {
+                font: fontBytes,
+                fontSize,
                 x: 50,
-                y: height - (index * 50 + 50),
-                fontSize: 18,
-                color: rgb(0, 0, 0), // black
+                y: page.getHeight() - (index === 0 ? 50 : 100),
+                lineHeight: 15,
             });
 
             page.drawText(content.trim(), {
+                font: fontBytes,
+                fontSize: 12,
                 x: 70,
-                y: height - (index * 50 + 100),
-                fontSize,
-                color: rgb(0, 0, 0), // black
+                y: page.getHeight() - (index === 0 ? 100 : 150),
+                lineHeight: 12,
             });
         });
 
+        // Save and send the PDF file
         const pdfBytes = await pdfDoc.save();
-
-        // Save the PDF file
         const filePath = 'Terms_and_Conditions.pdf';
         await writeAsync(filePath, pdfBytes);
-
-        // Send the PDF file
         conn.sendFile(m.chat, filePath, 'Terms and Conditions', m, { quoted: m });
-
-        // Delete the file from RAM
         await unlinkAsync(filePath);
     } catch (error) {
         console.error('Error sending Terms and Conditions:', error);
@@ -128,7 +144,8 @@ let handler = async (m, { conn }) => {
 };
 
 handler.help = ['terms'];
-handler.tags = ['main'];
+handler.tags = ['info'];
 handler.command = ['terms'];
 
 export default handler;
+    
