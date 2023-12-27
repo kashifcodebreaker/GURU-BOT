@@ -1,9 +1,12 @@
 import { createWriteStream, promises as fsPromises } from 'fs';
 import { promisify } from 'util';
 import { PDFDocument } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit'; // Explicitly import fontkit
 
 const writeAsync = promisify(createWriteStream);
 const unlinkAsync = fsPromises.unlink;
+
+PDFDocument.registerFontkit(fontkit); // Register fontkit
 
 const termsAndConditions = `
 # Silver Fox Bot Terms and Conditions
