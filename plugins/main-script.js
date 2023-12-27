@@ -1,7 +1,6 @@
 import { createWriteStream, promises as fsPromises } from 'fs';
 import { promisify } from 'util';
 import { PDFDocument, rgb } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
 
 const writeAsync = promisify(createWriteStream);
 const unlinkAsync = fsPromises.unlink;
@@ -96,11 +95,7 @@ let handler = async (m, { conn }) => {
     try {
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage();
-        pdfDoc.registerFontkit(fontkit);
 
-        // Embed the default font (Helvetica)
-        const font = await pdfDoc.embedFont(fontkit.openSync(fontkit.Font.Helvetica));
-        
         const headings = parseHeadings(termsAndConditions);
 
         // Add headings and content
@@ -115,7 +110,6 @@ let handler = async (m, { conn }) => {
             const fontSize = heading.level === 1 ? 18 : 12;
 
             page.drawText(heading.text, {
-                font,
                 fontSize,
                 x: 50,
                 y: page.getHeight() - (index === 0 ? 50 : 100),
@@ -123,7 +117,6 @@ let handler = async (m, { conn }) => {
             });
 
             page.drawText(content.trim(), {
-                font,
                 fontSize: 12,
                 x: 70,
                 y: page.getHeight() - (index === 0 ? 100 : 150),
@@ -144,7 +137,7 @@ let handler = async (m, { conn }) => {
 };
 
 handler.help = ['terms'];
-handler.tags = ['main'];
+handler.tags = ['info'];
 handler.command = ['terms'];
 
 export default handler;
