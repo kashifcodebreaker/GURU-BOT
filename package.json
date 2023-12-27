@@ -41,6 +41,7 @@
         "@whiskeysockets/baileys": "npm:@whiskeysockets/baileys",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@bochilteam/scraper": "^4.0.22-alpha.0",
+        "@pdf-lib/fontkit": "^1.1.1",
         "awesome-phonenumber": "^3.4.0",
         "acrcloud": "^1.4.0",
         "@shineiichijo/marika": "^2.0.6",
