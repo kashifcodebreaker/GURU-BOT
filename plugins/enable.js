@@ -143,16 +143,6 @@ case 'autobio':
      user.autolevelup = isEnable
      break
      
-     case 'chatbot':
-      if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
-          global.dfail('admin', m, conn)
-          throw false
-        }
-      }
-      chat.chatbot = isEnable
-      break
-     
     case 'restrict':
     case 'restringir':
       isAll = true
@@ -171,7 +161,17 @@ case 'autobio':
       }
       chat.autotype = isEnable
       break
-      
+
+      case 'chatbot':
+      isAll = true
+        if (!isOwner) {
+        global.dfail('owner', m, conn)
+        throw false
+        }
+      }
+      chat.chatbot = isEnable
+      break
+	
       case 'anticall':
         case 'nocall':
           isAll = true
@@ -208,7 +208,7 @@ case 'autobio':
       
     default:
      if (!/[01]/.test(command)) return m.reply(`
-≡ List of options
+≡ Available Settings
 
 ◈──『 *ADMIN*』───⳹
 ⛊ welcome
@@ -223,15 +223,15 @@ case 'autobio':
 ╰──────────⳹ 
 ◈──『 *USERS*』───⳹
 ⛊ autolevelup
-⛊ chatbot 
 ╰──────────⳹
-◈──『 *OWNER*』───⳹
+◈──『 *OPERATOR*』──⳹
 ⛊ onlydm
+⛊ chatbot
 ⛊ grouponly
 ⛊ autotype
 ⛊ autobio
 ╰──────────⳹
-*📌 Example :*
+*📌 Usage Example:*
 *${usedPrefix}on* welcome
 *${usedPrefix}off* welcome
 `)
@@ -239,7 +239,7 @@ case 'autobio':
   }
 
 m.reply(`
-✅ *${type}* Now *${isEnable ? 'Active' : 'Deactive'}* ${isAll ? 'for this bot' : isUser ? '' : 'for this bot'}
+✅ *${type}* Now *${isEnable ? 'Active' : 'Deactive'}* ${isAll ? 'for all chats' : isUser ? '' : 'for this chat'}
 `.trim()) 
 
 }
