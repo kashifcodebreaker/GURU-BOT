@@ -167,7 +167,6 @@ case 'autobio':
         if (!isOwner) {
         global.dfail('owner', m, conn)
         throw false
-        }
       }
       chat.chatbot = isEnable
       break
