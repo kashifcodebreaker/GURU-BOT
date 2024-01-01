@@ -6,6 +6,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     try {
         if (text === undefined || text.trim() === '') {
             throw `Hey there! What's on your mind? 👀`;
+            return;
         }
 
         m.react('🤖');
