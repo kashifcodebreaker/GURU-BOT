@@ -4,7 +4,10 @@ const genAI = new GoogleGenerativeAI('AIzaSyDJC5a882ruaC4XL6ejY1yhgRkN-JNQKg8');
 
 let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     try {
-        if (!text) throw `Hey there! What's on your mind? 👀`;
+        if (text === undefined || text.trim() === '') {
+            throw `Hey there! What's on your mind? 👀`;
+        }
+
         m.react('🤖');
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         const prompt = text;
