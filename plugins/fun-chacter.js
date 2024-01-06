@@ -22,7 +22,7 @@ const getRandomDefaultCharacter = () => {
   return defaultCharacters[Math.floor(Math.random() * defaultCharacters.length)];
 };
 
-const handler = async (message, { conn, text }) => {
+const handler = async (message, {m, conn, text }) => {
   let mentionedUser = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : false);
 if (!mentionedUser) {
   m.reply("🔍 Psst! You forgot to mention or quote the user whose character you want to analyze. Try again with a user tag or by quoting a message! 🎭").then(() => m.react('🤔'));
