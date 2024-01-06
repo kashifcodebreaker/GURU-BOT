@@ -22,13 +22,13 @@ const getRandomDefaultCharacter = () => {
   return defaultCharacters[Math.floor(Math.random() * defaultCharacters.length)];
 };
 
-const handler = async (message, {m, conn, text }) => {
+const handler = async (message, { conn, text, m }) => {
   let mentionedUser = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : false);
-if (!mentionedUser) {
-  m.reply("🔍 Psst! You forgot to mention or quote the user whose character you want to analyze. Try again with a user tag or by quoting a message! 🎭").then(() => m.react('🤔'));
-  m.react('🙄'); // Add this line to react to the user's message");
-  return;
-} 
+  if (!mentionedUser) {
+    m.reply("🔍 Psst! You forgot to mention or quote the user whose character you want to analyze. Try again with a user tag or by quoting a message! 🎭").then(() => m.react('🤔'));
+    return m.react('🙄'); // Add this line to react to the user's message
+  } 
+
   try {
     const userTemperament = await getTemperamentFromAPI();
     const response = `🧛‍♂️ The character of @${mentionedUser.split("@")[0]} is described as *${userTemperament}*!`;
