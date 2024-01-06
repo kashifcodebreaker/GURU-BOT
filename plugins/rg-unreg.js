@@ -4,7 +4,7 @@ import { createHash } from 'crypto';
 
 const handler = async (m, { conn, args, usedPrefix }) => {
   if (!args[0]) {
-    m.reply("🔍 *Psst! Enter your serial number to gracefully exit.*\nCheck your serial number with:\n*`${usedPrefix}nserie`*").then(() => m.react('🤔'));
+    m.reply("🔍 *Psst! Enter your serial number to gracefully exit.*\nCheck your serial number with:\n*${usedPrefix}serial*").then(() => m.react('🤔'));
     m.react('🙄');
     return;
   }
