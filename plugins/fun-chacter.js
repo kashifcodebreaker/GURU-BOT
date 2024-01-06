@@ -29,6 +29,9 @@ const handler = async (m, { conn, text }) => {
     return m.react('🙄'); // Add this line to react to the user's message
   } 
 
+  // Send "Analyzing..." message with a touch of humor
+  m.reply("🔍 Let me put on my character-analysis glasses... Analyzing... 🕵️").then(() => m.react('🤖'));
+
   try {
     const userTemperament = await getTemperamentFromAPI();
     const response = `🧛‍♂️ The character of @${mentionedUser.split("@")[0]} is described as *${userTemperament}*!`;
@@ -48,4 +51,3 @@ handler.tags = ['fun'];
 handler.command = /^(character)$/i;
 
 export default handler;
-      
