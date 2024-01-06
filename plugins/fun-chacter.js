@@ -30,20 +30,23 @@ const handler = async (m, { conn, text }) => {
   } 
 
   // Send "Analyzing..." message with a touch of humor
-  m.reply("🔍 Let me put on my character-analysis glasses... Analyzing... 🕵️").then(() => m.react('🤖'));
-
-  try {
-    const userTemperament = await getTemperamentFromAPI();
-    const response = `🧛‍♂️ The character of @${mentionedUser.split("@")[0]} is described as *${userTemperament}*!`;
-    conn.sendMessage(m.chat, { text: response, mentions: [mentionedUser] }, { quoted: m });
-    m.react('🎭');
-  } catch (error) {
-    console.error('Error:', error);
-    const defaultCharacter = getRandomDefaultCharacter();
-    const response = `🔮 I predict @${mentionedUser.split("@")[0]} has a character like *${defaultCharacter}*!`;
-    conn.sendMessage(m.chat, { text: response, mentions: [mentionedUser] }, { quoted: m });
-    m.react('😅');
-  }
+  m.reply("🔍 Let me put on my character-analysis glasses... Analyzing... 🕵️").then(() => {
+    // Add a delay before sending the actual analysis
+    setTimeout(async () => {
+      try {
+        const userTemperament = await getTemperamentFromAPI();
+        const response = `🧛‍♂️ The character of @${mentionedUser.split("@")[0]} is described as *${userTemperament}*!`;
+        conn.sendMessage(m.chat, { text: response, mentions: [mentionedUser] }, { quoted: m });
+        m.react('🎭');
+      } catch (error) {
+        console.error('Error:', error);
+        const defaultCharacter = getRandomDefaultCharacter();
+        const response = `🔮 I predict @${mentionedUser.split("@")[0]} has a character like *${defaultCharacter}*!`;
+        conn.sendMessage(m.chat, { text: response, mentions: [mentionedUser] }, { quoted: m });
+        m.react('😅');
+      }
+    }, 2000); // Adjust the delay duration as needed (in milliseconds)
+  });
 };
 
 handler.help = ["character @tag"];
