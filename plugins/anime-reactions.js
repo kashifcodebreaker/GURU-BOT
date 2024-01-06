@@ -198,22 +198,27 @@ const getRandomMessage = (action, sender, target) => {
   ]
 };
     
-  const variations = messageVariations[action] || [`(${sender}) ${action} ${target}`];
-  return variations[Math.floor(Math.random() * variations.length)];
+  const variations = messageVariations[action];
+  if (!variations || variations.length === 0) {
+    return ''; // Return an empty string if the action is not recognized
+  }
+
+  const randomIndex = Math.floor(Math.random() * variations.length);
+  return variations[randomIndex];
 };
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   let who;
-  if (m.isGroup) {
-    who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false;
-  } else {
-    who = m.chat;
-  }
+if (m.isGroup) {
+  who = m.mentionedJid[0] || (m.quoted && m.quoted.sender) || false;
+} else {
+  who = m.chat;
+}
 
-  if (!who) throw `✳️ Tag or mention someone\n\n📌 Example : ${usedPrefix + command} @tag`;
+if (!who) throw `✳️ Tag or mention someone\n\n📌 Example : ${usedPrefix + command} @tag`;
 
-  let name = conn.getName(who);
-  let name2 = conn.getName(m.sender);
+let name = m.mentionedJid[0] ? conn.getName(m.mentionedJid[0]) : '';
+let name2 = conn.getName(m.sender);
   m.react(rwait);
 
   let reaction = await fetch(`https://api.waifu.pics/sfw/${command}`);
