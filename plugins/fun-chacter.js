@@ -48,3 +48,4 @@ handler.tags = ['fun'];
 handler.command = /^(character)$/i;
 
 export default handler;
+
