@@ -6,8 +6,8 @@ m.reply(`
 ▢ *seriel number* : ${sn}
 `.trim())
 }
-handler.help = ['mysn']
-handler.tags = ['rg']
-handler.command = ['nserie', 'sn', 'mysn'] 
+handler.help = ['serial']
+handler.tags = ['Registration']
+handler.command = ['serial', 'sn', 'mysn'] 
 handler.register = true
 export default handler
