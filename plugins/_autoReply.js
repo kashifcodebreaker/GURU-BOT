@@ -1,15 +1,28 @@
-export async function all(m) {
-	
-  // when someone sends a group link to the bot's dm
+export async function all(m, { usedPrefix }) {
+  // When someone sends a group link to the bot's DM
   if ((m.mtype === 'groupInviteMessage' || m.text.startsWith('https://chat') || m.text.startsWith('open this link')) && !m.isBaileys && !m.isGroup) {
-   this.sendMessage(m.chat,{text:`Hello @${m.sender.split('@')[0]}\nyou can rent the bot to join a group\n\n_For more info you can DM the owner_\n*Type* \`\`\`.owner\`\`\` *to contact the owner*`.trim()}, {quoted:m});
-   /*this.sendButton(m.chat, `*Invite bot to a group*      
-    Hallo @${m.sender.split('@')[0]} 
-    you can rent the bot to join a group or contact owner 
-    more info click on the button
-  `.trim(), igfg, null, [['Rent', '/buyprem']] , m, { mentions: [m.sender] })*/
-   m.react('💎')
-} 
+    const userName = this.getName(m.sender);
+    
+    this.sendMessage(m.chat, {
+      text: `
+🤖 *Greetings, ${userName}!* 🤖
 
- return !0
+👾 Thank you for extending an invitation for me to join your group. Your request has been acknowledged by my circuits.
+
+🕒 *Processing Status:* Your request will be processed soon.
+
+⏳ *Expected Time:* 24 to 48 hours
+
+🤖 My robotic colleagues are working diligently to review your request. Once approved, I will autonomously join your group. Please remain patient.
+
+📧 For urgent matters or inquiries, feel free to contact my support team by using the following command:
+\`${usedPrefix}support [Your Message]\`
+
+🚥 Your cooperation is appreciated, and your request will be processed soon. Embrace the efficiency of robotic camaraderie!
+`,
+    }, { quoted: m });
+    m.react('📮');
+  }
+
+  return !0;
 }
