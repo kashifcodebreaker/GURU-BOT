@@ -1,6 +1,3 @@
-import pkg from '@whiskeysockets/baileys';
-const { groupRequestParticipantsList, groupRequestParticipantsUpdate } = pkg;
-
 let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
     if (!isBotAdmin || !isAdmin || !m.isGroup) {
         return;
@@ -11,7 +8,7 @@ let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
 
     if (!isApproveCommand) {
         try {
-            const responseList = await groupRequestParticipantsList(groupId);
+            const responseList = await conn.groupRequestParticipantsList(groupId);
 
             if (responseList.length === 0) {
                 return m.reply('👥 No pending join requests. Your group is already as exclusive as a VIP club!');
@@ -48,7 +45,7 @@ Example:
     const numToApprove = parseInt(args[1]);
 
     try {
-        const responseList = await groupRequestParticipantsList(groupId);
+        const responseList = await conn.groupRequestParticipantsList(groupId);
 
         if (numToApprove > responseList.length) {
             return m.reply(`
@@ -60,7 +57,7 @@ Total pending requests: ${responseList.length}
 
         const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
 
-        const responseUpdate = await groupRequestParticipantsUpdate(groupId, membersToApprove, 'approve');
+        const responseUpdate = await conn.groupRequestParticipantsUpdate(groupId, membersToApprove, 'approve');
 
         if (responseUpdate.status === 200) {
             const numApproved = membersToApprove.length;
@@ -94,4 +91,3 @@ handler.isAdmin = true;
 handler.isGroup = true;
 
 export default handler;
-            
