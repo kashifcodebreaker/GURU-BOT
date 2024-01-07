@@ -26,7 +26,7 @@ let handler = async (m, { conn, text }) => {
 };
 
 handler.help = ['gpt4 <prompt>'];
-handler.tags = ['tools'];
+handler.tags = ['AI'];
 handler.command = /^(gpt4)$/i;
 
 export default handler;
