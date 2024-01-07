@@ -14,13 +14,13 @@ let handler = async (m, { conn, usedPrefix }) => {
     m.react('🚀');
 
     return m.reply(`
-    🕰️ *Silver Fox Active Duration* 🕰️
+   🕰️ *Silver Fox Active Duration* 🕰️
 
     🦊 The Silver Fox has been actively assisting you!
 
     ⌛ *Uptime:* ${muptime}
 
-    🚀 Pro tip: I'm not just counting seconds; I'm creating a symphony of digital wonders! 😄
+    🚀 Pro tip: Just like a fox hunting for wisdom in the digital wilderness, I'm on a continuous quest to enhance your experience! 😄
     `);
   } catch (error) {
     console.error('Error fetching runtime:', error);
