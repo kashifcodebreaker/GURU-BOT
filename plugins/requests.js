@@ -11,12 +11,14 @@ let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
             const responseList = await conn.groupRequestParticipantsList(groupId);
 
             if (responseList.length === 0) {
+                m.react('👌');
                 return m.reply('👥 No pending join requests. Your group is already as exclusive as a VIP club!');
             }
 
             const groupInfo = await conn.groupMetadata(groupId);
             const numMembersNow = groupInfo.participants.length;
 
+            m.react('🥹');
             return m.reply(`
 👥 There are ${responseList.length} pending join requests.
 👥 Current members in the group: ${numMembersNow}
@@ -29,11 +31,13 @@ Example:
             `);
         } catch (error) {
             console.error('Error fetching join requests:', error);
+           m.react('🥺');
             return m.reply('❌ Error fetching join requests. Please try again later.');
         }
     }
 
     if (!args[1] || isNaN(args[1])) {
+        m.react('👀');
         return m.reply(`
 ❓ You forgot to tell me how many members you want to welcome to the party.
 
@@ -44,10 +48,21 @@ Example:
 
     const numToApprove = parseInt(args[1]);
 
+    if (numToApprove <= 0) {
+        m.react('😂');
+        return m.reply(`
+❌ You can't welcome 0 or a negative number of members.
+
+Example:
+*requeststojoingroup approve 3*
+        `);
+    }
+
     try {
         const responseList = await conn.groupRequestParticipantsList(groupId);
 
         if (numToApprove > responseList.length) {
+            m.react('😹');
             return m.reply(`
 ❌ You can't welcome more members than there are join requests.
 
@@ -70,8 +85,9 @@ Total pending requests: ${responseList.length}
             const groupInfo = await conn.groupMetadata(groupId);
             const numMembersNow = groupInfo.participants.length;
 
+            m.react('🎉');
             return m.reply(`
-*🎉 Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
+*Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
 👤 Members welcomed: ${numApproved}
 👥 Members still waiting outside: ${numLeft}
 👥 Total members in the group now: ${numMembersNow}
@@ -79,10 +95,12 @@ Total pending requests: ${responseList.length}
 *Tip: The more, the merrier! Keep the party going! 🎊*
             `);
         } else {
+            m.react('💔');
             return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
         }
     } catch (error) {
         console.error('Error processing join requests:', error);
+        m.react('😶');
         return m.reply('❌ Error processing join requests. Please try again later.');
     }
 };
