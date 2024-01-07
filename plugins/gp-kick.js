@@ -103,4 +103,9 @@ export default handler;
 function getRandomMessage(messages) {
     const randomIndex = Math.floor(Math.random() * messages.length);
     return messages[randomIndex];
-		}
+}
+
+// Function to sleep for a specified duration
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}		
