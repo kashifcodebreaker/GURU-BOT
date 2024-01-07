@@ -1,4 +1,5 @@
 import displayLoadingScreen from '../lib/loading.js';
+import displayLoadingScreen from '../lib/loading.js';
 import fetch from 'node-fetch';
 import { delay } from '@whiskeysockets/baileys';
 
@@ -33,14 +34,21 @@ export default handler;
 
 async function typewriterEffect(conn, quoted, from, text) {
   let { key } = await conn.sendMessage(from, { text: '🧠 Thinking...' }, { quoted: quoted });
+  let isTyping = false;
 
   for (let i = 0; i < text.length; i++) {
     const partialText = text.slice(0, i + 1);
+
+    // Send typing indication only once
+    if (!isTyping) {
+      conn.sendPresenceUpdate('composing', from);
+      isTyping = true;
+    }
+
     await conn.relayMessage(from, {
       protocolMessage: {
         key: key,
         type: 14,
-        // Use an appropriate interval based on the text length
         editedMessage: {
           conversation: partialText,
           ...(i === text.length - 1 && { 'delete': 'false' }), // Remove 'delete' property for the last edit
@@ -50,4 +58,4 @@ async function typewriterEffect(conn, quoted, from, text) {
 
     await delay(Math.min(100, 30 + text.length * 5)); // Adjust the delay time (in milliseconds) as needed
   }
-       }
+}
