@@ -86,7 +86,11 @@ let handler = async (m, { conn, participants, usedPrefix, command }) => {
     m.reply(getRandomMessage(funnyMessages));
     m.react('✈️');
 
-    // Remove the user immediately after sending the message
+
+    // Add a slight delay before attempting to remove the user
+    await sleep(500);
+       
+    // Remove the user
     await conn.groupParticipantsUpdate(m.chat, [user], 'remove');
 };
 
