@@ -75,6 +75,7 @@ Total pending requests: ${responseList.length}
 *Tip: The more, the merrier! Keep the party going! 🎊*
             `);
         } else {
+            console.error('Error updating join requests:', responseUpdate);
             return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
         }
     } catch (error) {
@@ -91,3 +92,4 @@ handler.isAdmin = true;
 handler.isGroup = true;
 
 export default handler;
+    
