@@ -57,10 +57,14 @@ Total pending requests: ${responseList.length}
 
         const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
 
-        const responseUpdate = await conn.groupRequestParticipantsUpdate(groupId, membersToApprove, 'approve');
+        const responses = await Promise.all(membersToApprove.map(async (member) => {
+            return await conn.groupRequestParticipantsUpdate(groupId, [member], 'approve');
+        }));
 
-        if (responseUpdate.status === 200) {
-            const numApproved = membersToApprove.length;
+        const successfulResponses = responses.filter(response => response.status === 200);
+
+        if (successfulResponses.length === numToApprove) {
+            const numApproved = successfulResponses.length;
             const numLeft = responseList.length - numApproved;
 
             const groupInfo = await conn.groupMetadata(groupId);
@@ -75,7 +79,6 @@ Total pending requests: ${responseList.length}
 *Tip: The more, the merrier! Keep the party going! 🎊*
             `);
         } else {
-            console.error('Error updating join requests:', responseUpdate);
             return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
         }
     } catch (error) {
@@ -92,4 +95,4 @@ handler.isAdmin = true;
 handler.isGroup = true;
 
 export default handler;
-    
+        
