@@ -14,7 +14,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     m.react('🚀');
 
     return m.reply(`
-   🕰️ *Silver Fox Active Duration* 🕰️
+    🕰️ *Silver Fox Active Duration*
 
     🦊 The Silver Fox has been actively assisting you!
 
