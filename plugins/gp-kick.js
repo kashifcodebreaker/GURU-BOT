@@ -5,13 +5,12 @@ let handler = async (m, { conn, participants, usedPrefix, command }) => {
     // Check if the command is used with a mentioned user or a quoted message
     if (!m.mentionedJid[0] && !m.quoted) {
         m.reply(kickUsage, m.chat, { mentions: conn.parseMention(kickUsage) });
-        m.react('👀');
+        m.react('🤔');
         return;
     }
 
     // Get the user to be kicked (prioritize mentioned user over quoted)
-    let user = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender;
-
+    let user = m.mentionedJid[0] || (m.quoted ? m.quoted.sender : null);
 
     // List of funny messages to be randomly picked
     const funnyMessages = [
@@ -82,8 +81,6 @@ let handler = async (m, { conn, participants, usedPrefix, command }) => {
         `🚄 Speedy exit for @${user.split('@')[0]}. All aboard! 🚆`
 						 
  ];
-	
-    ];
 
     // Send a random fun message before removing the user
     m.reply(getRandomMessage(funnyMessages));
@@ -106,4 +103,4 @@ export default handler;
 function getRandomMessage(messages) {
     const randomIndex = Math.floor(Math.random() * messages.length);
     return messages[randomIndex];
-}
+		}
