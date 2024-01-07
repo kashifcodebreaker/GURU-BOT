@@ -8,11 +8,12 @@ let handler = async (m) => {
     const response = await axios.get('http://numbersapi.com/random/trivia');
     const factText = response.data;
 
-    // Reply with the fetched fact
-    return m.reply(`🤓 *Fact:* ${factText}`);
+    // Reply with the fetched fact and add a reaction
+    m.reply(`🤓 *Fact:* ${factText}`);
+    m.react('🧠'); // Added brain emoji as a reaction
   } catch (error) {
     console.error('Error fetching fact from API:', error);
-    return m.reply('❌ Oops! Something went wrong. Unable to fetch a fact at the moment.');
+    m.reply('❌ Oops! Something went wrong. Unable to fetch a fact at the moment.');
   }
 };
 
