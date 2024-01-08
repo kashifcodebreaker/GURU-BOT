@@ -39,8 +39,8 @@ ${listAdmin}
 • Demoted: ${sDemote}
 `.trim();
 
-    conn.sendFile(m.chat, pp, 'group_info.jpg', text, m, false, { mentions: [...groupAdmins.map(v => v.id), owner] });
-};
+    conn.sendFile(m.chat, { file: pp, mimetype: 'image/jpeg' }, 'group_info.jpg', text, m, false, { mentions: [...groupAdmins.map(v => v.id), owner] });
+
 
 handler.help = ['groupinfo'];
 handler.tags = ['group'];
