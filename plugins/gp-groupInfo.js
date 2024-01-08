@@ -20,7 +20,7 @@ let handler = async (m, { conn, participants, groupMetadata }) => {
 • ${participants.length}
 
 *🤿 Group's Super Admin:*
-• @${owner.split('@')[0]}
+• {owner}
 
 *🕵️‍♂️ Admins:*
 ${listAdmin}
