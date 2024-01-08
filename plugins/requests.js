@@ -7,18 +7,17 @@ let handler = async (m, { conn, args, isAdmin, isBotAdmin }) => {
     const isApproveCommand = args[0]?.toLowerCase() === 'approve';
 
     if (!isApproveCommand) {
+        m.react('🕵️');
         try {
             const responseList = await conn.groupRequestParticipantsList(groupId);
 
             if (responseList.length === 0) {
-                m.react('👌');
                 return m.reply('👥 No pending join requests. Your group is already as exclusive as a VIP club!');
             }
 
             const groupInfo = await conn.groupMetadata(groupId);
             const numMembersNow = groupInfo.participants.length;
 
-            m.react('🥹');
             return m.reply(`
 👥 There are ${responseList.length} pending join requests.
 👥 Current members in the group: ${numMembersNow}
@@ -31,13 +30,13 @@ Example:
             `);
         } catch (error) {
             console.error('Error fetching join requests:', error);
-           m.react('🥺');
+            m.react('🥺');
             return m.reply('❌ Error fetching join requests. Please try again later.');
         }
     }
 
     if (!args[1] || isNaN(args[1])) {
-        m.react('👀');
+        m.react('🙄');
         return m.reply(`
 ❓ You forgot to tell me how many members you want to welcome to the party.
 
@@ -49,11 +48,11 @@ Example:
     const numToApprove = parseInt(args[1]);
 
     if (numToApprove <= 0) {
-        m.react('😂');
+        m.react('🤦‍♀️');
         return m.reply(`
 ❌ You can't welcome 0 or a negative number of members.
 
-Example:
+Correct usage example:
 *requeststojoingroup approve 3*
         `);
     }
@@ -62,7 +61,7 @@ Example:
         const responseList = await conn.groupRequestParticipantsList(groupId);
 
         if (numToApprove > responseList.length) {
-            m.react('😹');
+            m.react('🤦‍♀️');
             return m.reply(`
 ❌ You can't welcome more members than there are join requests.
 
@@ -70,6 +69,7 @@ Total pending requests: ${responseList.length}
             `);
         }
 
+        m.react('🚥');
         const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
 
         const responses = await Promise.all(membersToApprove.map(async (member) => {
@@ -85,22 +85,22 @@ Total pending requests: ${responseList.length}
             const groupInfo = await conn.groupMetadata(groupId);
             const numMembersNow = groupInfo.participants.length;
 
-            m.react('🎉');
+            m.react('✅');
             return m.reply(`
 *Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
-👤 Members welcomed: ${numApproved}
-👥 Members still waiting outside: ${numLeft}
-👥 Total members in the group now: ${numMembersNow}
+🎊 Members welcomed: ${numApproved}
+🚪 Members still waiting outside: ${numLeft}
+📊 Total members in the group now: ${numMembersNow}
 
 *Tip: The more, the merrier! Keep the party going! 🎊*
             `);
         } else {
-            m.react('💔');
+            m.react('😟');
             return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
         }
     } catch (error) {
         console.error('Error processing join requests:', error);
-        m.react('😶');
+        m.react('😢');
         return m.reply('❌ Error processing join requests. Please try again later.');
     }
 };
@@ -113,4 +113,4 @@ handler.isAdmin = true;
 handler.isGroup = true;
 
 export default handler;
-        
+                
