@@ -1,7 +1,7 @@
 //import db from '../lib/database.js'
 
 let handler = async (m, { conn, participants, groupMetadata }) => {
-    const pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || './src/avatar_contact.png';
+    const pp = await conn.getProfilePicture(m.chat).catch(_ => null) || './src/avatar_contact.png';
     const { isBanned, welcome, detect, sWelcome, sBye, sPromote, sDemote, antiLink, delete: del } = global.db.data.chats[m.chat];
     const groupAdmins = participants.filter(p => p.admin);
     const listAdmin = groupAdmins.map((v, i) => `  ${i + 1}. @${v.id.split('@')[0]}`).join('\n');
@@ -19,8 +19,8 @@ let handler = async (m, { conn, participants, groupMetadata }) => {
 *👥 Members Count:*
 • ${participants.length}
 
-*🤿 Group's Super Admin:*
-• ${owner ? `@${owner.split('@')[0]}` : 'Not Set'}
+*👮🏻 Group's Super Admin:*
+• @${owner.split('@')[0]}
 
 *🕵️‍♂️ Admins:*
 ${listAdmin}
@@ -28,7 +28,7 @@ ${listAdmin}
 🔧 *Group Settings:*
 • Banned: ${isBanned ? '✅' : '❎'}
 • Welcome: ${welcome ? '✅' : '❎'}
-• Detector: ${detect ? '✅' : '❎'}
+• Detector: ${detect ? '✅' or '❎'}
 • Anti Delete: ${del ? '❎' : '✅'}
 • Anti Link: ${antiLink ? '✅' : '❎'}
 
@@ -39,13 +39,14 @@ ${listAdmin}
 • Demoted: ${sDemote}
 `.trim();
 
-    conn.sendFile(m.chat, { file: pp, mimetype: 'image/jpeg' }, 'group_info.jpg', text, m, false, { mentions: [...groupAdmins.map(v => v.id), owner] });
+    const fileType = pp.endsWith('.gif') ? 'gif' : (pp.endsWith('.png') ? 'png' : 'jpeg');
 
+    conn.sendFile(m.chat, pp, 'group_info.' + fileType, text, m, false, { mentions: [...groupAdmins.map(v => v.id), owner] });
+};
 
 handler.help = ['groupinfo'];
 handler.tags = ['group'];
-handler.command = ['groupinfo', 'gcinfo', 'gpinfo'];
+handler.command = ['groupinfo'];
 handler.group = true;
 
 export default handler;
-                                                                             
