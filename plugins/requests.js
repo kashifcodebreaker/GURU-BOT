@@ -69,17 +69,15 @@ Total pending requests: ${responseList.length}
             `);
         }
 
-        m.react('📥');
+        m.react('🚥');
         const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
 
         const responses = await Promise.all(membersToApprove.map(async (member) => {
             return await conn.groupRequestParticipantsUpdate(groupId, [member], 'approve');
         }));
 
-        const successfulResponses = responses.filter(response => response.status === 200);
-
-        if (successfulResponses.length === numToApprove) {
-            const numApproved = succe🗳️ssfulResponses.lengt;
+        if (responses.every(response => response.status === 200)) {
+            const numApproved = responses.length;
             const numLeft = responseList.length - numApproved;
 
             const groupInfo = await conn.groupMetadata(groupId);
@@ -88,7 +86,7 @@ Total pending requests: ${responseList.length}
             m.react('✅');
             return m.reply(`
 *Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
-📥 Members welcomed: ${numApproved}
+🎊 Members welcomed: ${numApproved}
 🚪 Members still waiting outside: ${numLeft}
 📊 Total members in the group now: ${numMembersNow}
 
@@ -101,8 +99,7 @@ Total pending requests: ${responseList.length}
     } catch (error) {
         console.error('Error processing join requests:', error);
         m.react('😢');
-        return m.reply(`
-❌ Error processing join requests. Please try again later.`);
+        return m.reply('❌ Error processing join requests. Please try again later.');
     }
 };
 
@@ -114,4 +111,4 @@ handler.isAdmin = true;
 handler.isGroup = true;
 
 export default handler;
-    
+        
