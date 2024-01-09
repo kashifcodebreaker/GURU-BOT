@@ -1,4 +1,4 @@
-p// import db from '../lib/database.js';
+// import db from '../lib/database.js';
 
 import fetch from 'node-fetch';
 
