@@ -78,8 +78,8 @@ Total pending requests: ${responseList.length}
 
     console.log('Responses:', responses); // Add this console log
 
-    if (responses.length === numToApprove && responses[0].every(response => response.status === '200')) {
-    const numApproved = responses[0].length;
+    if (responses.every(response => response.length === 1 && response[0].status === '200')) {
+    const numApproved = responses.length;
     const numLeft = responseList.length - numApproved;
 
     const groupInfo = await conn.groupMetadata(groupId);
