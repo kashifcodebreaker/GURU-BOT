@@ -76,7 +76,7 @@ Total pending requests: ${responseList.length}
             return await conn.groupRequestParticipantsUpdate(groupId, [member], 'approve');
         }));
 
-        if (responses.every(response => response.status === 200)) {
+                if (responses.every(response => response.status === 200)) {
             const numApproved = responses.length;
             const numLeft = responseList.length - numApproved;
 
@@ -84,18 +84,18 @@ Total pending requests: ${responseList.length}
             const numMembersNow = groupInfo.participants.length;
 
             m.react('✅');
-            return m.reply(`
+            m.reply(`
 *Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
-📥 Members welcomed: ${numApproved}
+🎊 Members welcomed: ${numApproved}
 🚪 Members still waiting outside: ${numLeft}
 📊 Total members in the group now: ${numMembersNow}
 
 *Tip: The more, the merrier! Keep the party going! 🎊*
             `);
         } else {
-            m.react('😟');
-            return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
+            m.reply('❌ Failed to welcome new member(s). Maybe next time!');
         }
+
     } catch (error) {
         console.error('Error processing join requests:', error);
         m.react('😢');
