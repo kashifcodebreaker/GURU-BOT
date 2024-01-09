@@ -108,9 +108,9 @@ Total pending requests: ${responseList.length}
 handler.help = ['requeststojoingroup', 'requeststojoingroup approve <num>'];
 handler.tags = ['group'];
 handler.command = ['requeststojoingroup'];
-handler.isBotAdmin = true;
-handler.isAdmin = true;
-handler.isGroup = true;
+handler.botAdmin = true;
+handler.admin = true;
+handler.group = true;
 
 export default handler;
         
