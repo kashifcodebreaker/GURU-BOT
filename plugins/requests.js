@@ -78,25 +78,25 @@ Total pending requests: ${responseList.length}
 
     console.log('Responses:', responses); // Add this console log
 
-    if (responses.every(response => response.status === 200)) {
-        const numApproved = responses.length;
-        const numLeft = responseList.length - numApproved;
+    if (responses.length === numToApprove && responses[0].every(response => response.status === '200')) {
+    const numApproved = responses[0].length;
+    const numLeft = responseList.length - numApproved;
 
-        const groupInfo = await conn.groupMetadata(groupId);
-        const numMembersNow = groupInfo.participants.length;
+    const groupInfo = await conn.groupMetadata(groupId);
+    const numMembersNow = groupInfo.participants.length;
 
-        m.react('✅');
-        return m.reply(`
+    m.react('✅');
+    return m.reply(`
 *Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
 🎊 Members welcomed: ${numApproved}
 🚪 Members still waiting outside: ${numLeft}
 📊 Total members in the group now: ${numMembersNow}
 
 *Tip: The more, the merrier! Keep the party going! 🎊*
-        `);
-    } else {
-        m.react('😟');
-        return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
+    `);
+} else {
+    m.react('😟');
+    return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
     }
 } catch (error) {
     console.error('Error processing join requests:', error);
