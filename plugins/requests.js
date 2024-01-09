@@ -58,48 +58,50 @@ Correct usage example:
     }
 
     try {
-        const responseList = await conn.groupRequestParticipantsList(groupId);
+    const responseList = await conn.groupRequestParticipantsList(groupId);
 
-        if (numToApprove > responseList.length) {
-            m.react('🤦🏻‍♀️');
-            return m.reply(`
+    if (numToApprove > responseList.length) {
+        m.react('🤦🏻‍♀️');
+        return m.reply(`
 ❌ You can't welcome more members than there are join requests.
 
 Total pending requests: ${responseList.length}
-            `);
-        }
+        `);
+    }
 
-        m.react('⏳');
-        const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
+    m.react('⏳');
+    const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
 
-        const responses = await Promise.all(membersToApprove.map(async (member) => {
-            return await conn.groupRequestParticipantsUpdate(groupId, [member], 'approve');
-        }));
+    const responses = await Promise.all(membersToApprove.map(async (member) => {
+        return await conn.groupRequestParticipantsUpdate(groupId, [member], 'approve');
+    }));
 
-                if (responses.every(response => response.status === 200)) {
-            const numApproved = responses.length;
-            const numLeft = responseList.length - numApproved;
+    console.log('Responses:', responses); // Add this console log
 
-            const groupInfo = await conn.groupMetadata(groupId);
-            const numMembersNow = groupInfo.participants.length;
+    if (responses.every(response => response.status === 200)) {
+        const numApproved = responses.length;
+        const numLeft = responseList.length - numApproved;
 
-            m.react('✅');
-            m.reply(`
+        const groupInfo = await conn.groupMetadata(groupId);
+        const numMembersNow = groupInfo.participants.length;
+
+        m.react('✅');
+        return m.reply(`
 *Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
 🎊 Members welcomed: ${numApproved}
 🚪 Members still waiting outside: ${numLeft}
 📊 Total members in the group now: ${numMembersNow}
 
 *Tip: The more, the merrier! Keep the party going! 🎊*
-            `);
-        } else {
-            m.reply('❌ Failed to welcome new member(s). Maybe next time!');
-        }
-
-    } catch (error) {
-        console.error('Error processing join requests:', error);
-        m.react('😢');
-        return m.reply('❌ Error processing join requests. Please try again later.');
+        `);
+    } else {
+        m.react('😟');
+        return m.reply('❌ Failed to welcome new member(s). Maybe next time!');
+    }
+} catch (error) {
+    console.error('Error processing join requests:', error);
+    m.react('😢');
+    return m.reply('❌ Error processing join requests. Please try again later.');
     }
 };
 
