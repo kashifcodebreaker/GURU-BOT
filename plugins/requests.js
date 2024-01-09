@@ -48,7 +48,7 @@ Example:
     const numToApprove = parseInt(args[1]);
 
     if (numToApprove <= 0) {
-        m.react('🤦‍♀️');
+        m.react('🤦🏻‍♀️');
         return m.reply(`
 ❌ You can't welcome 0 or a negative number of members.
 
@@ -61,7 +61,7 @@ Correct usage example:
         const responseList = await conn.groupRequestParticipantsList(groupId);
 
         if (numToApprove > responseList.length) {
-            m.react('🤦‍♀️');
+            m.react('🤦🏻‍♀️');
             return m.reply(`
 ❌ You can't welcome more members than there are join requests.
 
@@ -69,7 +69,7 @@ Total pending requests: ${responseList.length}
             `);
         }
 
-        m.react('🚥');
+        m.react('⏳');
         const membersToApprove = responseList.slice(0, numToApprove).map(req => req.jid);
 
         const responses = await Promise.all(membersToApprove.map(async (member) => {
@@ -86,7 +86,7 @@ Total pending requests: ${responseList.length}
             m.react('✅');
             return m.reply(`
 *Successfully welcomed ${numApproved} new member(s) to the party!* 🥳
-🎊 Members welcomed: ${numApproved}
+📥 Members welcomed: ${numApproved}
 🚪 Members still waiting outside: ${numLeft}
 📊 Total members in the group now: ${numMembersNow}
 
