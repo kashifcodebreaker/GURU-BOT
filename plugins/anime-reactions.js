@@ -148,18 +148,19 @@ const getRandomMessage = (action, sender, target) => {
     `(${sender}) and ${target} embraced in a warm and fuzzy glomp`
   ],
   slap: [
-    `(${sender}) playfully slapped ${target}'s cheek`,
-    `Slap alert! (${sender}) and ${target} engaged in a friendly slapping moment`,
-    `(${sender}) couldn't resist a playful slap on ${target}'s back`,
-    `Watch out! (${sender}) gave ${target} a gentle slap on the wrist`,
-    `(${sender}) and ${target} shared a laugh after the playful slap`
+    `(${sender}) slapped ${target}'s cheek`,
+    `Slap alert! (${sender}) and ${target} engaged in a slapping moment`,
+    `(${sender}) couldn't resist a awful slap on ${target}'s back`,
+    `Watch out! (${sender}) gave ${target} a painful slap on the wrist`,
+    `(${sender}) and ${target} looking agressively on each other after the painful slap`
   ],
   kill: [
-    `(${sender}) jokingly tried to "kill" ${target}`,
+    `(${sender}) fearlessly tried to "kill" ${target}`,
     `Dangerous encounter! (${sender}) and ${target} engaged in a pretend battle`,
     `(${sender}) playfully aimed a pretend attack at ${target}`,
-    `Watch out! (${sender}) declared a playful "kill" on ${target}`,
-    `(${sender}) and ${target} shared a laugh after the pretend "kill"`
+    `Watch out! (${sender}) killed ${target} daringly`,
+    `(${sender}) fearlessly ended ${target}'s life 😔`,
+    `(${sender}) Sender) fearlessly pressed the 'eject' button on ${target}'s life story, leaving everyone in suspense.`
   ],
   happy: [
     `(${sender}) radiated happiness around ${target}`,
@@ -209,27 +210,31 @@ const getRandomMessage = (action, sender, target) => {
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   let who;
-if (m.isGroup) {
-  who = m.mentionedJid[0] || (m.quoted && m.quoted.sender) || false;
-} else {
-  who = m.chat;
-}
+  if (m.isGroup) {
+    who = m.mentionedJid[0] || (m.quoted && m.quoted.sender) || false;
+  } else {
+    who = m.chat;
+  }
 
-if (!who) throw `✳️ Tag or mention someone\n\n📌 Example : ${usedPrefix + command} @tag`;
+  if (!who) throw `✳️ Tag or mention someone\n\n📌 Example : ${usedPrefix + command} @tag`;
 
-let name = m.mentionedJid[0] ? conn.getName(m.mentionedJid[0]) : '';
-let name2 = conn.getName(m.sender);
+  let name = m.mentionedJid[0] ? conn.getName(m.mentionedJid[0]) : '';
+  let name2 = m.quoted ? conn.getName(m.quoted.sender) : conn.getName(m.sender);
+
+  // Extract the name of the user who sent the original quoted message
+  let originalSenderName = m.quoted && m.quoted.sender ? conn.getName(m.quoted.sender) : '';
+
   m.react(rwait);
 
   let reaction = await fetch(`https://api.waifu.pics/sfw/${command}`);
   if (!reaction.ok) throw await reaction.text();
-  
+
   let json = await reaction.json();
   let { url } = json;
   const gifBuffer = await getBuffer(url);
   const gifToVideoBuffer = await GIFBufferToVideoBuffer(gifBuffer);
 
-  const message = getRandomMessage(command, name2, name);
+  const message = getRandomMessage(command, name2, name, originalSenderName);
 
   conn.sendMessage(
     m.chat,
