@@ -215,10 +215,11 @@ if (m.isGroup) {
   who = m.chat;
 }
 
-if (!who) throw `✳️ Tag or mention someone\n\n📌 Example : ${usedPrefix + command} @tag`;
+if (!who) throw `🤦🏻‍♀️ Mention the user or quote someone's message\n\n📌 Example : ${usedPrefix + command} @tag`;
 
 let name = m.mentionedJid[0] ? conn.getName(m.mentionedJid[0]) : '';
 let name2 = conn.getName(m.sender);
+
   m.react(rwait);
 
   let reaction = await fetch(`https://api.waifu.pics/sfw/${command}`);
