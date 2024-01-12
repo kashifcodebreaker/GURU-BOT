@@ -1,5 +1,3 @@
-//import db from '../lib/database.js'
-
 let handler = async (m, { conn, participants, groupMetadata }) => {
     m.react('🔍');
     const pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || './src/avatar_contact.png';
@@ -57,9 +55,9 @@ ${listAdmin}
 🪢 *Group Configuration:*
 • ${isBanned ? '✅' : '❎'} Banned
 • ${welcome ? '✅' : '❎'} Welcome
-• ${detect ? '✅' or '❎'} Detector
-• ${del ? '❎' or '✅'} Anti Delete
-• ${antiLink ? '✅' or '❎'} Anti Link
+• ${detect ? '✅' : '❎'} Detector
+• ${del ? '❎' : '✅'} Anti Delete
+• ${antiLink ? '✅' : '❎'} Anti Link
 
 📬 *Message Settings:*
 • Welcome: ${sWelcome}
@@ -71,8 +69,10 @@ ${listAdmin}
 ${groupSizeFunFact}
 `.trim();
 
-    conn.sendFile(m.chat, pp, 'pp.jpg', text, m, false, { mentions: [...groupAdmins.map(v => v.id), superAdmin] });
-}
+    const fileType = pp.endsWith('.gif') ? 'gif' : (pp.endsWith('.png') ? 'png' : 'jpeg');
+
+    conn.sendFile(m.chat, await fetch(pp).then(v => v.arrayBuffer()), 'group_info.' + fileType, text, m, false, { mentions: [...groupAdmins.map(v => v.id), superAdmin] });
+};
 
 handler.help = ['groupinfo'];
 handler.tags = ['group'];
@@ -80,4 +80,3 @@ handler.command = ['groupinfo', 'infogroup'];
 handler.group = true;
 
 export default handler;
-        
