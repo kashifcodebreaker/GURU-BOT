@@ -42,5 +42,6 @@ We appreciate your input! Our team is on the lookout for any areas of improvemen
 
 handler.help = ['support [Your Inquiry/Feedback]'];
 handler.tags = ['support'];
+handler.command = ['support']
 
 export default handler;
