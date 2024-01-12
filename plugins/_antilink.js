@@ -1,7 +1,7 @@
 const linkRegex = /https?:\/\/(?:chat\.whatsapp\.com\/(?:invite\/)?|[^./?#]+\.[^./?#]+)/i;
 
 const funnyMessages = [
-  "🚫 Oops, *@{username}* sent a link! 😄\n\nWe're a link-free zone! 👀🚷\n\n*@{username}*, your link is now floating in cyberspace, forever alone, just like you! 😂🚀",
+  "🚫 Oops, you sent a link! 😄\n\nWe're a link-free zone! 👀🚷\n\n*@{username}*, your link is now floating in cyberspace, forever alone, just like you! 😂🚀",
   "Roses are red, violets are blue, links are banned, and so are you! 😂🌹",
   "Hold on! 🛑 *@{username}*, did you just try to sneak in a link? Nice try! 😏🚷",
   "Roses are red, violets are blue, links are banned, and so are you! 😂🌹",
