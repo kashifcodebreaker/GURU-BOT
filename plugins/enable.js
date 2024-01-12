@@ -168,7 +168,7 @@ case 'autobio':
         global.dfail('owner', m, conn)
         throw false
       }
-      global.db.data.settings['chatbot'] = isEnable
+      chat.chatbot = isEnable
   break
 	
       case 'anticall':
