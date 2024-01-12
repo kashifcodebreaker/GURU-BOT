@@ -841,7 +841,7 @@ global.dfail = (type, m, conn) => {
     ${userTag} This command prefers the shadows of private chats. Let's keep our secrets between us!`,
         admin: `*${emoji.admin} Admin Power Required*\n
     ${userTag} Only the mighty group administrators can wield this command. Flex those admin muscles!`,
-        botAdmin: `*${emoji.botAdmin} Bot Admin Credentials Needed*\n
+        botAdmin: `*${emoji.botAdmin} Admin Credentials Needed*\n
     ${userTag} Grant me the honor of admin status for a smoother command execution. *Bow, beep, boop!*`,
         owner: `*${emoji.owner} Grandmaster Authorization Required*\n
     ${userTag} Only the illustrious Grandmaster can perform this operation. Time to summon the wise wizard!`,
