@@ -1,5 +1,3 @@
-import displayLoadingScreen from '../lib/loading.js';
-import displayLoadingScreen from '../lib/loading.js';
 import fetch from 'node-fetch';
 import { delay } from '@whiskeysockets/baileys';
 
